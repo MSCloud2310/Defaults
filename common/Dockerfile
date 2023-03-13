@@ -1,7 +1,6 @@
-FROM maven:3.8.5-openjdk-17-slim
+FROM openjdk:17-alpine
 WORKDIR /home/app
-COPY src/ src/
-COPY pom.xml .
-RUN mvn clean package
-EXPOSE 8080
-ENTRYPOINT [ "java", "-jar", "./target/*.jar" ]
+COPY ./target/*.jar app.jar 
+ENV SERVER_PORT 8080
+EXPOSE ${SERVER_PORT}
+ENTRYPOINT [ "java", "-jar", "app.jar", "-D", "SERVER_PORT=${SERVER_PORT}" ]
