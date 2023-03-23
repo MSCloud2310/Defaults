@@ -14,17 +14,17 @@ import java.util.Optional;
 @Service
 public class ProviderService {
     @Autowired
-    ProviderRepository providerRepository;
+    ProviderRepository repository;
 
     @Autowired
     SocialMediaRepository socialMediaRepository;
 
     public List<Provider> findAllProviders() {
-        return (List<Provider>) providerRepository.findAll();
+        return (List<Provider>) repository.findAll();
     }
 
     public Provider findProviderById(String id) {
-        Optional<Provider> provider = providerRepository.findById(id);
+        Optional<Provider> provider = repository.findById(id);
         if(provider.isEmpty()) {
             throw new NotFoundException("Provider not found");
         }
@@ -32,25 +32,24 @@ public class ProviderService {
     }
 
     public boolean saveProvider(Provider provider) {
-//        socialMediaRepository.saveAll(provider.getSocialMedia());
-        providerRepository.save(provider);
+        repository.save(provider);
         return true;
     }
 
     public boolean deleteProvider(String id) {
-        if(providerRepository.findById(id).isEmpty()) {
+        if(repository.findById(id).isEmpty()) {
             throw new NotFoundException("Provider not found");
         }
-        providerRepository.deleteById(id);
+        repository.deleteById(id);
         return true;
     }
 
     public void updateProvider(Provider provider) {
-        Optional<Provider> providerValidation = providerRepository.findById(provider.getId());
+        Optional<Provider> providerValidation = repository.findById(provider.getId());
         if(providerValidation.isEmpty()) {
             throw new AlreadyExistException("Provider not found");
         }
         providerValidation.get().setId(provider.getId());
-        providerRepository.save(providerValidation.get());
+        repository.save(providerValidation.get());
     }
 }
