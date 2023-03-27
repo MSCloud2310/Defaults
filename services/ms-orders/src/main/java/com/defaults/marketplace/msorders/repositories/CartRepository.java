@@ -6,5 +6,5 @@ import com.defaults.marketplace.msorders.models.Cart;
 
 public interface CartRepository extends MongoRepository<Cart, String> {
 
-	Cart findByUserId(Integer userId);
+    Cart findByUserId(Integer userId);
 }

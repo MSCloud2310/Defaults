@@ -22,36 +22,36 @@ import com.defaults.marketplace.msorders.services.PaymentService;
 @RequestMapping("/payments")
 public class PaymentController {
 
-	@Autowired
-	private PaymentService paymentService;
+    @Autowired
+    private PaymentService paymentService;
 
-	@GetMapping
-	public ResponseEntity<List<Payment>> findPayments(@RequestParam(name = "userId", required = false) Integer userId) {
-		if (userId != null) {
-			return ResponseEntity.ok(paymentService.getPaymentsByUserId(userId));
-		}
-		return ResponseEntity.ok(paymentService.getAllPayments());
-	}
+    @GetMapping
+    public ResponseEntity<List<Payment>> findPayments(@RequestParam(name = "userId", required = false) Integer userId) {
+        if (userId != null) {
+            return ResponseEntity.ok(paymentService.getPaymentsByUserId(userId));
+        }
+        return ResponseEntity.ok(paymentService.getAllPayments());
+    }
 
-	@PostMapping
-	public ResponseEntity<Order> payCart(@RequestParam("userId") Integer userId, @RequestBody Payment payment) {
-		return ResponseEntity.ok(paymentService.payCart(userId, payment));
-	}
+    @PostMapping
+    public ResponseEntity<Order> payCart(@RequestParam("userId") Integer userId, @RequestBody Payment payment) {
+        return ResponseEntity.ok(paymentService.payCart(userId, payment));
+    }
 
-	@GetMapping("/{paymentId}")
-	public ResponseEntity<Payment> findPaymentById(@PathVariable("paymentId") String paymentId) {
-		return ResponseEntity.ok(paymentService.getPaymentById(paymentId));
-	}
+    @GetMapping("/{paymentId}")
+    public ResponseEntity<Payment> findPaymentById(@PathVariable("paymentId") String paymentId) {
+        return ResponseEntity.ok(paymentService.getPaymentById(paymentId));
+    }
 
-	@PutMapping("/{paymentId}")
-	public ResponseEntity<Payment> updatePayment(@PathVariable("paymentId") String paymentId,
-			@RequestBody Payment payment) {
-		return ResponseEntity.ok(paymentService.updatePayment(paymentId, payment));
-	}
+    @PutMapping("/{paymentId}")
+    public ResponseEntity<Payment> updatePayment(@PathVariable("paymentId") String paymentId,
+            @RequestBody Payment payment) {
+        return ResponseEntity.ok(paymentService.updatePayment(paymentId, payment));
+    }
 
-	@DeleteMapping("/{paymentId}")
-	public ResponseEntity<Void> deletePayment(@PathVariable("paymentId") String paymentId) {
-		paymentService.deletePayment(paymentId);
-		return ResponseEntity.ok().build();
-	}
+    @DeleteMapping("/{paymentId}")
+    public ResponseEntity<Void> deletePayment(@PathVariable("paymentId") String paymentId) {
+        paymentService.deletePayment(paymentId);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -20,30 +20,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/orders")
 public class OrderController {
 
-	@Autowired
-	private OrderService orderService;
+    @Autowired
+    private OrderService orderService;
 
-	@GetMapping
-	public ResponseEntity<List<Order>> findOrders(@RequestParam(name = "userId", required = false) Integer userId) {
-		if (userId != null) {
-			return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
-		}
-		return ResponseEntity.ok(orderService.getAllOrders());
-	}
+    @GetMapping
+    public ResponseEntity<List<Order>> findOrders(@RequestParam(name = "userId", required = false) Integer userId) {
+        if (userId != null) {
+            return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
+        }
+        return ResponseEntity.ok(orderService.getAllOrders());
+    }
 
-	@GetMapping("/{orderId}")
-	public ResponseEntity<Order> findOrderById(@PathVariable("orderId") String orderId) {
-		return ResponseEntity.ok(orderService.getOrderById(orderId));
-	}
+    @GetMapping("/{orderId}")
+    public ResponseEntity<Order> findOrderById(@PathVariable("orderId") String orderId) {
+        return ResponseEntity.ok(orderService.getOrderById(orderId));
+    }
 
-	@PutMapping("/{orderId}")
-	public ResponseEntity<Order> updateOrder(@PathVariable("orderId") String orderId, @RequestBody Order order) {
-		return ResponseEntity.ok(orderService.updateOrder(orderId, order));
-	}
+    @PutMapping("/{orderId}")
+    public ResponseEntity<Order> updateOrder(@PathVariable("orderId") String orderId, @RequestBody Order order) {
+        return ResponseEntity.ok(orderService.updateOrder(orderId, order));
+    }
 
-	@DeleteMapping("/{orderId}")
-	public ResponseEntity<Void> deleteOrder(@PathVariable("orderId") String orderId) {
-		orderService.deleteOrder(orderId);
-		return ResponseEntity.ok().build();
-	}
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable("orderId") String orderId) {
+        orderService.deleteOrder(orderId);
+        return ResponseEntity.ok().build();
+    }
 }

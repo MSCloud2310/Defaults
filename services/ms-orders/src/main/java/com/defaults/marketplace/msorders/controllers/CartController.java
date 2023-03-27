@@ -21,64 +21,64 @@ import com.defaults.marketplace.msorders.services.CartService;
 @RequestMapping("/carts")
 public class CartController {
 
-	@Autowired
-	private CartService cartService;
+    @Autowired
+    private CartService cartService;
 
-	@GetMapping
-	public ResponseEntity<List<Cart>> findAllCarts() {
-		return ResponseEntity.ok(cartService.getAllCarts());
-	}
+    @GetMapping
+    public ResponseEntity<List<Cart>> findAllCarts() {
+        return ResponseEntity.ok(cartService.getAllCarts());
+    }
 
-	@GetMapping("/{userId}")
-	public ResponseEntity<Cart> findCartByUserId(@PathVariable Integer userId) {
-		return ResponseEntity.ok(cartService.getCartByUserId(userId));
-	}
+    @GetMapping("/{userId}")
+    public ResponseEntity<Cart> findCartByUserId(@PathVariable Integer userId) {
+        return ResponseEntity.ok(cartService.getCartByUserId(userId));
+    }
 
-	@PostMapping("/{userId}")
-	public ResponseEntity<Cart> createCart(@PathVariable Integer userId) {
-		return ResponseEntity.ok(cartService.createCartByUserId(userId));
-	}
+    @PostMapping("/{userId}")
+    public ResponseEntity<Cart> createCart(@PathVariable Integer userId) {
+        return ResponseEntity.ok(cartService.createCartByUserId(userId));
+    }
 
-	@PutMapping("/{userId}")
-	public ResponseEntity<Cart> updateCart(@PathVariable Integer userId, @RequestBody Cart cart) {
-		return ResponseEntity.ok(cartService.updateCartByUserId(userId, cart));
-	}
+    @PutMapping("/{userId}")
+    public ResponseEntity<Cart> updateCart(@PathVariable Integer userId, @RequestBody Cart cart) {
+        return ResponseEntity.ok(cartService.updateCartByUserId(userId, cart));
+    }
 
-	@DeleteMapping("/{userId}")
-	public ResponseEntity<Void> deleteCart(@PathVariable Integer userId) {
-		cartService.deleteCartByUserId(userId);
-		return ResponseEntity.ok().build();
-	}
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteCart(@PathVariable Integer userId) {
+        cartService.deleteCartByUserId(userId);
+        return ResponseEntity.ok().build();
+    }
 
-	@GetMapping("/{userId}/items")
-	public ResponseEntity<List<Item>> findItemsByUserId(@PathVariable Integer userId) {
-		return ResponseEntity.ok(cartService.getItemsFromCart(userId));
-	}
+    @GetMapping("/{userId}/items")
+    public ResponseEntity<List<Item>> findItemsByUserId(@PathVariable Integer userId) {
+        return ResponseEntity.ok(cartService.getItemsFromCart(userId));
+    }
 
-	@PostMapping("/{userId}/items")
-	public ResponseEntity<Cart> addItemToCart(@PathVariable Integer userId, @RequestBody Item item) {
-		return ResponseEntity.ok(cartService.addItemToCart(userId, item));
-	}
+    @PostMapping("/{userId}/items")
+    public ResponseEntity<Cart> addItemToCart(@PathVariable Integer userId, @RequestBody Item item) {
+        return ResponseEntity.ok(cartService.addItemToCart(userId, item));
+    }
 
-	@DeleteMapping("/{userId}/items")
-	public ResponseEntity<Cart> emptyCart(@PathVariable Integer userId) {
-		return ResponseEntity.ok(cartService.emptyCart(userId));
-	}
+    @DeleteMapping("/{userId}/items")
+    public ResponseEntity<Cart> emptyCart(@PathVariable Integer userId) {
+        return ResponseEntity.ok(cartService.emptyCart(userId));
+    }
 
-	@GetMapping("/{userId}/items/{position}")
-	public ResponseEntity<Item> findItemByUserIdAndPosition(@PathVariable Integer userId, @PathVariable int position) {
-		return ResponseEntity.ok(cartService.getItemFromCart(userId, position));
-	}
+    @GetMapping("/{userId}/items/{position}")
+    public ResponseEntity<Item> findItemByUserIdAndPosition(@PathVariable Integer userId, @PathVariable int position) {
+        return ResponseEntity.ok(cartService.getItemFromCart(userId, position));
+    }
 
-	@PutMapping("/{userId}/items/{position}")
-	public ResponseEntity<Cart> updateItemByUserIdAndPosition(@PathVariable Integer userId, @PathVariable int position,
-			@RequestBody Item item) {
-		return ResponseEntity.ok(cartService.updateItemFromCart(userId, position, item));
-	}
+    @PutMapping("/{userId}/items/{position}")
+    public ResponseEntity<Cart> updateItemByUserIdAndPosition(@PathVariable Integer userId, @PathVariable int position,
+            @RequestBody Item item) {
+        return ResponseEntity.ok(cartService.updateItemFromCart(userId, position, item));
+    }
 
-	@DeleteMapping("/{userId}/items/{position}")
-	public ResponseEntity<Cart> removeItemByUserIdAndPosition(@PathVariable Integer userId,
-			@PathVariable int position) {
-		return ResponseEntity.ok(cartService.removeItemFromCart(userId, position));
-	}
+    @DeleteMapping("/{userId}/items/{position}")
+    public ResponseEntity<Cart> removeItemByUserIdAndPosition(@PathVariable Integer userId,
+            @PathVariable int position) {
+        return ResponseEntity.ok(cartService.removeItemFromCart(userId, position));
+    }
 }
