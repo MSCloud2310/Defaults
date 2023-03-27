@@ -1,56 +1,54 @@
 package com.defaults.marketplace.msorders.models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.mongodb.lang.Nullable;
 
 public class Item {
 
-	private Date dateAdded;
-	private @Nullable Date dateFrom;
-	private @Nullable Date dateTo;
-	private Integer quantity;
-	private Double cost;
-	private String serviceId;
-	private Integer userId;
-	private @Nullable ServiceDetails details;
+	private LocalDateTime dateAdded;
+	private @Nullable LocalDateTime dateFrom;
+	private @Nullable LocalDateTime dateTo;
+	private Integer quantity = 0;
+	private Double cost = 0.0;
+	private Integer serviceId;
+	private @Nullable ServiceDetails serviceDetails;
 
-	public Item(Date dateAdded, Date dateFrom, Date dateTo, Integer quantity, Double cost, String serviceId,
-			Integer userId, ServiceDetails details) {
+	public Item(LocalDateTime dateAdded, LocalDateTime dateFrom, LocalDateTime dateTo, Integer quantity, Double cost,
+			Integer serviceId, ServiceDetails serviceDetails) {
 		this.dateAdded = dateAdded;
 		this.dateFrom = dateFrom;
 		this.dateTo = dateTo;
 		this.quantity = quantity;
 		this.cost = cost;
 		this.serviceId = serviceId;
-		this.userId = userId;
-		this.details = details;
+		this.serviceDetails = serviceDetails;
 	}
 
 	public Item() {
 	}
 
-	public Date getDateAdded() {
+	public LocalDateTime getDateAdded() {
 		return dateAdded;
 	}
 
-	public void setDateAdded(Date dateAdded) {
+	public void setDateAdded(LocalDateTime dateAdded) {
 		this.dateAdded = dateAdded;
 	}
 
-	public @Nullable Date getDateFrom() {
+	public @Nullable LocalDateTime getDateFrom() {
 		return dateFrom;
 	}
 
-	public void setDateFrom(@Nullable Date dateFrom) {
+	public void setDateFrom(@Nullable LocalDateTime dateFrom) {
 		this.dateFrom = dateFrom;
 	}
 
-	public @Nullable Date getDateTo() {
+	public @Nullable LocalDateTime getDateTo() {
 		return dateTo;
 	}
 
-	public void setDateTo(@Nullable Date dateTo) {
+	public void setDateTo(@Nullable LocalDateTime dateTo) {
 		this.dateTo = dateTo;
 	}
 
@@ -70,27 +68,19 @@ public class Item {
 		this.cost = cost;
 	}
 
-	public String getServiceId() {
+	public Integer getServiceId() {
 		return serviceId;
 	}
 
-	public void setServiceId(String serviceId) {
+	public void setServiceId(Integer serviceId) {
 		this.serviceId = serviceId;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public @Nullable ServiceDetails getServiceDetails() {
+		return serviceDetails;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	public @Nullable ServiceDetails getDetails() {
-		return details;
-	}
-
-	public void setDetails(@Nullable ServiceDetails details) {
-		this.details = details;
+	public void setServiceDetails(@Nullable ServiceDetails serviceDetails) {
+		this.serviceDetails = serviceDetails;
 	}
 }

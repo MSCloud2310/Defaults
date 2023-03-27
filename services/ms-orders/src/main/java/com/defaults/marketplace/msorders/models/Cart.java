@@ -11,11 +11,10 @@ public class Cart {
 	@Id
 	private String id;
 	private Integer userId;
-	private Double totalCost;
+	private Double totalCost = 0.0;
 	private List<Item> items;
 
-	public Cart(String id, Integer userId, Double totalCost, List<Item> items) {
-		this.id = id;
+	public Cart(Integer userId, Double totalCost, List<Item> items) {
 		this.userId = userId;
 		this.totalCost = totalCost;
 		this.items = items;

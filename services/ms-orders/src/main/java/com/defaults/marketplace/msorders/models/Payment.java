@@ -1,6 +1,6 @@
 package com.defaults.marketplace.msorders.models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
 
@@ -8,17 +8,16 @@ public class Payment {
 	@Id
 	private String id;
 	private String confirmationCode;
-	private Date date;
+	private LocalDateTime datePaid;
 	private PaymentMethod paymentMethod;
 	private String cardNumber;
 	private String cardCvv;
 	private String cardExpiryDate;
 
-	public Payment(String id, String confirmationCode, Date date, PaymentMethod paymentMethod, String cardNumber,
+	public Payment(String confirmationCode, LocalDateTime datePaid, PaymentMethod paymentMethod, String cardNumber,
 			String cardCvv, String cardExpiryDate) {
-		this.id = id;
 		this.confirmationCode = confirmationCode;
-		this.date = date;
+		this.datePaid = datePaid;
 		this.paymentMethod = paymentMethod;
 		this.cardNumber = cardNumber;
 		this.cardCvv = cardCvv;
@@ -44,12 +43,12 @@ public class Payment {
 		this.confirmationCode = confirmationCode;
 	}
 
-	public Date getDate() {
-		return date;
+	public LocalDateTime getDate() {
+		return datePaid;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDate(LocalDateTime datePaid) {
+		this.datePaid = datePaid;
 	}
 
 	public PaymentMethod getPaymentMethod() {

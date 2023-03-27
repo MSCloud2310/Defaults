@@ -1,6 +1,6 @@
 package com.defaults.marketplace.msorders.models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -12,16 +12,15 @@ public class Order {
 	@Id
 	private String id;
 	private Integer userId;
-	private Date date;
+	private LocalDateTime dateCreated;
 	private Double totalCost;
 	private List<Item> items;
 	private PaymentDetails paymentDetails;
 
-	public Order(String id, Integer userId, Date date, Double totalCost, List<Item> items,
+	public Order(Integer userId, LocalDateTime dateCreated, Double totalCost, List<Item> items,
 			PaymentDetails paymentDetails) {
-		this.id = id;
 		this.userId = userId;
-		this.date = date;
+		this.dateCreated = dateCreated;
 		this.totalCost = totalCost;
 		this.items = items;
 		this.paymentDetails = paymentDetails;
@@ -46,12 +45,12 @@ public class Order {
 		this.userId = userId;
 	}
 
-	public Date getDate() {
-		return date;
+	public LocalDateTime getDateCreated() {
+		return dateCreated;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDateCreated(LocalDateTime dateCreated) {
+		this.dateCreated = dateCreated;
 	}
 
 	public Double getTotalCost() {
