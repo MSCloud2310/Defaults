@@ -23,4 +23,11 @@ public class RestAdvisor {
 		return ResponseEntity.status(HttpStatus.CONFLICT)
 				.body(new ErrorMessage(HttpStatus.CONFLICT.value(), e.getMessage()));
 	}
+
+	@ExceptionHandler(EmptyCartException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ErrorMessage> handleEmptyCart(RuntimeException e) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(new ErrorMessage(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
+	}
 }

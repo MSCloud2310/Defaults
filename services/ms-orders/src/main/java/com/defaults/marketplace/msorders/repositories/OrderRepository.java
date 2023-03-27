@@ -9,7 +9,7 @@ import com.defaults.marketplace.msorders.models.Order;
 
 public interface OrderRepository extends MongoRepository<Order, String> {
 
-	Order findByUserId(Integer userId);
+	List<Order> findByUserId(Integer userId);
 
 	@Query("{ 'items.serviceId' : ?0 }")
 	List<Order> findByServiceId(Integer serviceId);

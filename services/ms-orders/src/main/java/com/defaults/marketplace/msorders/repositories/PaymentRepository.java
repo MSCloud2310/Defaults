@@ -8,7 +8,5 @@ import com.defaults.marketplace.msorders.models.Payment;
 
 public interface PaymentRepository extends MongoRepository<Payment, String> {
 
-	Payment findByConfirmationCode(String confirmationCode);
-
 	List<Payment> findByUserId(Integer userId);
 }

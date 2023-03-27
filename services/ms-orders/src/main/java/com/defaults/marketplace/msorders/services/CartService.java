@@ -45,8 +45,8 @@ public class CartService {
 		if (existingCart == null) {
 			throw new NotFoundException("Cart not found");
 		}
-		cart.setId(existingCart.getId());
-		cart.setUserId(userId);
+		existingCart.setItems(cart.getItems() != null ? cart.getItems() : existingCart.getItems());
+		existingCart.calculateTotalCost();
 		return cartRepository.save(cart);
 	}
 

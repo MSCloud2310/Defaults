@@ -7,20 +7,18 @@ import org.springframework.data.annotation.Id;
 public class Payment {
 	@Id
 	private String id;
-	private String confirmationCode;
 	private Integer userId;
-	private LocalDateTime datePaid;
+	private LocalDateTime dateCreated;
 	private PaymentMethod paymentMethod;
 	private String cardNumber;
 	private String cardCvv;
 	private String cardExpiryDate;
 
-	public Payment(String confirmationCode, Integer userId, LocalDateTime datePaid, PaymentMethod paymentMethod,
+	public Payment(Integer userId, LocalDateTime dateCreated, PaymentMethod paymentMethod,
 			String cardNumber,
 			String cardCvv, String cardExpiryDate) {
-		this.confirmationCode = confirmationCode;
 		this.userId = userId;
-		this.datePaid = datePaid;
+		this.dateCreated = dateCreated;
 		this.paymentMethod = paymentMethod;
 		this.cardNumber = cardNumber;
 		this.cardCvv = cardCvv;
@@ -38,14 +36,6 @@ public class Payment {
 		this.id = id;
 	}
 
-	public String getConfirmationCode() {
-		return confirmationCode;
-	}
-
-	public void setConfirmationCode(String confirmationCode) {
-		this.confirmationCode = confirmationCode;
-	}
-
 	public Integer getUserId() {
 		return userId;
 	}
@@ -54,12 +44,12 @@ public class Payment {
 		this.userId = userId;
 	}
 
-	public LocalDateTime getDate() {
-		return datePaid;
+	public LocalDateTime getDateCreated() {
+		return dateCreated;
 	}
 
-	public void setDate(LocalDateTime datePaid) {
-		this.datePaid = datePaid;
+	public void setDateCreated(LocalDateTime dateCreated) {
+		this.dateCreated = dateCreated;
 	}
 
 	public PaymentMethod getPaymentMethod() {

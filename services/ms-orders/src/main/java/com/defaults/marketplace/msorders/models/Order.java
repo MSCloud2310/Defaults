@@ -13,12 +13,13 @@ public class Order {
 	private String id;
 	private Integer userId;
 	private LocalDateTime dateCreated;
-	private Double totalCost;
+	private Double totalCost = 0.0;
 	private List<Item> items;
 	private PaymentDetails paymentDetails;
 
-	public Order(Integer userId, LocalDateTime dateCreated, Double totalCost, List<Item> items,
+	public Order(String id, Integer userId, LocalDateTime dateCreated, Double totalCost, List<Item> items,
 			PaymentDetails paymentDetails) {
+		this.id = id;
 		this.userId = userId;
 		this.dateCreated = dateCreated;
 		this.totalCost = totalCost;
@@ -75,5 +76,13 @@ public class Order {
 
 	public void setPaymentDetails(PaymentDetails paymentDetails) {
 		this.paymentDetails = paymentDetails;
+	}
+
+	public void calculateTotalCost() {
+		Double totalCost = 0.0;
+		for (Item item : items) {
+			totalCost += item.getCost();
+		}
+		this.totalCost = totalCost;
 	}
 }
