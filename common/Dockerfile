@@ -1,12 +1,11 @@
-FROM maven:3.8.5-openjdk-17-slim AS build
-WORKDIR /home/app
+FROM maven:3.9.0-amazoncorretto-17 AS build
+WORKDIR /app
 COPY /src ./src
 COPY /pom.xml .
 RUN mvn clean package -D skipTests
 
-FROM openjdk:20-ea-17-jdk AS runner
-ARG DEPENDENCY=/home/app
-COPY --from=build ${DEPENDENCY}/target/*.jar app.jar
-ENV SERVER_PORT=8080
+FROM amazoncorretto:17.0.6-alpine3.17
+WORKDIR /app
+COPY --from=build /app/target/*.jar ./app.jar
 EXPOSE ${SERVER_PORT}
-ENTRYPOINT [ "java", "-jar", "./app.jar" ]
+CMD [ "java", "-jar", "./app.jar" ]
