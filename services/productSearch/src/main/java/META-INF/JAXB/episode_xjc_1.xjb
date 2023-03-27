@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb">
+  <!--
+
+Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.3.2 
+Visite <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
+Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
+Generado el: 2023.03.26 a las 10:25:35 PM COT 
+
+  -->
+  <bindings scd="x-schema::tns" xmlns:tns="http://www.defaults.com/marketplace/productSearch/entities">
+    <schemaBindings map="false">
+      <package name="com.defaults.marketplace.productsearch.entities"/>
+    </schemaBindings>
+    <bindings scd="~tns:serviceSOAP">
+      <class ref="com.defaults.marketplace.productsearch.entities.ServiceSOAP"/>
+    </bindings>
+    <bindings scd="tns:getServiceByIdRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByIdRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByIdResponse">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByIdResponse"/>
+    </bindings>
+    <bindings scd="tns:getAllServicesRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetAllServicesRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByProviderIdRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByProviderIdRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByTittleRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByTittleRequest"/>
+    </bindings>
+    <bindings scd="tns:getServicesListResponse">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServicesListResponse"/>
+    </bindings>
+    <bindings scd="tns:getServiceByCategoryRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByCategoryRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByDescriptionRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByDescriptionRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByCountrynRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByCountrynRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByCostRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByCostRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByCapacityRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByCapacityRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByOriginRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByOriginRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByDestinationRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByDestinationRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByArrivalTimeRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByArrivalTimeRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByDepartureTimeRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByDepartureTimeRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByTransportationTypeRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByTransportationTypeRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByLocationRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByLocationRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByCheckInTimeTimeRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByCheckInTimeTimeRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByCheckOutTimeTimeRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByCheckOutTimeTimeRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByBreakfastRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByBreakfastRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByInternetRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByInternetRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByMealTypeRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByMealTypeRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByServingsTypeRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByServingsTypeRequest"/>
+    </bindings>
+    <bindings scd="tns:getServiceByVeganTypeRequest">
+      <class ref="com.defaults.marketplace.productsearch.entities.GetServiceByVeganTypeRequest"/>
+    </bindings>
+  </bindings>
+</bindings>
+
