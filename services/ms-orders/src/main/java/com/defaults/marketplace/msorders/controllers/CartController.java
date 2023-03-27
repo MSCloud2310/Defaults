@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.defaults.marketplace.msorders.exceptions.AlreadyExistsException;
-import com.defaults.marketplace.msorders.exceptions.NotFoundException;
 import com.defaults.marketplace.msorders.models.Cart;
 import com.defaults.marketplace.msorders.models.Item;
 import com.defaults.marketplace.msorders.services.CartService;
@@ -33,32 +31,17 @@ public class CartController {
 
 	@GetMapping("/{userId}")
 	public ResponseEntity<Cart> findCartByUserId(@PathVariable Integer userId) {
-		Cart cart = cartService.getCartByUserId(userId);
-		if (cart == null) {
-			throw new NotFoundException("Cart not found");
-		}
-		return ResponseEntity.ok(cart);
+		return ResponseEntity.ok(cartService.getCartByUserId(userId));
 	}
 
 	@PostMapping("/{userId}")
 	public ResponseEntity<Cart> createCart(@PathVariable Integer userId) {
-		Cart cart = new Cart();
-		cart.setUserId(userId);
-		if (cartService.getCartByUserId(userId) != null) {
-			throw new AlreadyExistsException("Cart already exists");
-		}
-		return ResponseEntity.ok(cartService.saveCart(cart));
+		return ResponseEntity.ok(cartService.createCartByUserId(userId));
 	}
 
 	@PutMapping("/{userId}")
 	public ResponseEntity<Cart> updateCart(@PathVariable Integer userId, @RequestBody Cart cart) {
-		Cart existingCart = cartService.getCartByUserId(userId);
-		if (existingCart == null) {
-			throw new NotFoundException("Cart not found");
-		}
-		cart.setId(existingCart.getId());
-		cart.setUserId(userId);
-		return ResponseEntity.ok(cartService.updateCart(cart));
+		return ResponseEntity.ok(cartService.updateCartByUserId(userId, cart));
 	}
 
 	@DeleteMapping("/{userId}")

@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.defaults.marketplace.msorders.exceptions.AlreadyExistsException;
 import com.defaults.marketplace.msorders.exceptions.NotFoundException;
 import com.defaults.marketplace.msorders.models.Cart;
 import com.defaults.marketplace.msorders.models.Item;
@@ -23,14 +24,29 @@ public class CartService {
 	}
 
 	public Cart getCartByUserId(Integer userId) {
-		return cartRepository.findByUserId(userId);
+		Cart cart = cartRepository.findByUserId(userId);
+		if (cart == null) {
+			throw new NotFoundException("Cart not found");
+		}
+		return cart;
 	}
 
-	public Cart saveCart(Cart cart) {
+	public Cart createCartByUserId(Integer userId) {
+		if (cartRepository.findByUserId(userId) != null) {
+			throw new AlreadyExistsException("Cart already exists");
+		}
+		Cart cart = new Cart();
+		cart.setUserId(userId);
 		return cartRepository.save(cart);
 	}
 
-	public Cart updateCart(Cart cart) {
+	public Cart updateCartByUserId(Integer userId, Cart cart) {
+		Cart existingCart = cartRepository.findByUserId(userId);
+		if (existingCart == null) {
+			throw new NotFoundException("Cart not found");
+		}
+		cart.setId(existingCart.getId());
+		cart.setUserId(userId);
 		return cartRepository.save(cart);
 	}
 
@@ -62,11 +78,10 @@ public class CartService {
 		if (cart == null) {
 			throw new NotFoundException("Cart not found");
 		}
-		Item item = cart.getItems().get(position);
-		if (item == null) {
+		if (position < 0 || cart.getItems().size() <= position) {
 			throw new NotFoundException("Item not found");
 		}
-		return item;
+		return cart.getItems().get(position);
 	}
 
 	public Cart updateItemFromCart(Integer userId, int position, Item item) {
