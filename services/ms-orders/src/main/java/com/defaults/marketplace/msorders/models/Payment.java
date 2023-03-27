@@ -8,15 +8,18 @@ public class Payment {
 	@Id
 	private String id;
 	private String confirmationCode;
+	private Integer userId;
 	private LocalDateTime datePaid;
 	private PaymentMethod paymentMethod;
 	private String cardNumber;
 	private String cardCvv;
 	private String cardExpiryDate;
 
-	public Payment(String confirmationCode, LocalDateTime datePaid, PaymentMethod paymentMethod, String cardNumber,
+	public Payment(String confirmationCode, Integer userId, LocalDateTime datePaid, PaymentMethod paymentMethod,
+			String cardNumber,
 			String cardCvv, String cardExpiryDate) {
 		this.confirmationCode = confirmationCode;
+		this.userId = userId;
 		this.datePaid = datePaid;
 		this.paymentMethod = paymentMethod;
 		this.cardNumber = cardNumber;
@@ -41,6 +44,14 @@ public class Payment {
 
 	public void setConfirmationCode(String confirmationCode) {
 		this.confirmationCode = confirmationCode;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public LocalDateTime getDate() {
