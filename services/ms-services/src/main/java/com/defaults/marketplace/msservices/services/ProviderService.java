@@ -13,32 +13,30 @@ public class ProviderService {
     private ProviderRepository repository;
     @Autowired
     private SocialMediaService socialMediaService;
-    @Autowired
-    private ServiceService serviceService;
 
-    public Provider saveProvider(Provider provider){
+    public Provider saveProvider(Provider provider) {
         return repository.save(provider);
     }
 
-    public List<Provider> getProviders(){
+    public List<Provider> getProviders() {
         return repository.findAll();
     }
 
-    public Provider getProviderById(Integer id){
+    public Provider getProviderById(Integer id) {
         return repository.findProviderById(id);
     }
 
-    public boolean providerAlreadyExist(String publicName){
+    public boolean providerAlreadyExist(String publicName) {
         List<Provider> existingProviders = getProviders();
-        for (Provider provider:existingProviders){
-            if (provider.getPublicName().equals(publicName)){
+        for (Provider provider : existingProviders) {
+            if (provider.getPublicName().equals(publicName)) {
                 return true;
             }
         }
         return false;
     }
 
-    public Provider updateProvider(Provider provider){
+    public Provider updateProvider(Provider provider) {
         Provider existingProvider = repository.findProviderById(provider.getId());
         existingProvider.setSocialMedia(provider.getSocialMedia());
         existingProvider.setPublicName(provider.getPublicName());
@@ -51,7 +49,7 @@ public class ProviderService {
         return repository.save(existingProvider);
     }
 
-    public String deleteProvider(Integer id){
+    public String deleteProvider(Integer id) {
         repository.deleteById(id);
         return "Provider deleted";
     }

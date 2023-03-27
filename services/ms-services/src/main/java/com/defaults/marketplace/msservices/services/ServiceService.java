@@ -11,22 +11,20 @@ import java.util.List;
 public class ServiceService {
     @Autowired
     private ServiceRepository repository;
-    @Autowired
-    private QuestionService questionService;
 
-    public ServiceC saveService(ServiceC serviceC){
+    public ServiceC saveService(ServiceC serviceC) {
         return repository.save(serviceC);
     }
 
-    public List<ServiceC> getServices(){
+    public List<ServiceC> getServices() {
         return repository.findAll();
     }
 
-    public ServiceC getServiceById(Integer id){
+    public ServiceC getServiceById(Integer id) {
         return repository.findServiceCById(id);
     }
 
-    public ServiceC updateService(ServiceC serviceC){
+    public ServiceC updateService(ServiceC serviceC) {
         ServiceC existingService = repository.findServiceCById(serviceC.getId());
         existingService.setCategory(serviceC.getCategory());
         existingService.setTitle(serviceC.getTitle());
@@ -34,17 +32,17 @@ public class ServiceService {
         existingService.setCountryCode(serviceC.getCountryCode());
         existingService.setCost(serviceC.getCost());
         existingService.setCapacity(serviceC.getCapacity());
-        //serviceC.setProviderId(existingService.getProviderId());
+        // serviceC.setProviderId(existingService.getProviderId());
 
         return repository.save(existingService);
     }
 
-    public String deleteById(Integer id){
+    public String deleteById(Integer id) {
         repository.deleteById(id);
         return "Service deleted";
     }
 
-    public String deleteByProviderId(Integer providerId){
+    public String deleteByProviderId(Integer providerId) {
         List<ServiceC> services = repository.findAllByProviderId(providerId);
         repository.deleteAll(services);
         return "Services deleted.";

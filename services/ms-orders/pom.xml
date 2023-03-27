@@ -12,11 +12,13 @@
 	<artifactId>ms-orders</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ms-orders</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Orders microservice</description>
+	
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.1</spring-cloud.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -30,20 +32,22 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-loadbalancer</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
 	</dependencies>
 
-	<!--
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -55,7 +59,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	-->
 
 	<build>
 		<plugins>
@@ -66,7 +69,6 @@
 		</plugins>
 	</build>
 
-	<!--
 	<repositories>
 		<repository>
 			<id>netflix-candidates</id>
@@ -77,6 +79,5 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	-->
 
 </project>
