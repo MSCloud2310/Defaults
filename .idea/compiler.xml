@@ -9,7 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="providers" />
         <module name="search" />
-        <module name="productSearch" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
