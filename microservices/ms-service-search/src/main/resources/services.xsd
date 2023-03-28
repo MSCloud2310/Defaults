@@ -1,0 +1,263 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://www.defaults.com/marketplace/productSearch/entities"
+           targetNamespace="http://www.defaults.com/marketplace/productSearch/entities"
+           elementFormDefault="qualified">
+    <xs:element name="serviceSOAP" type="tns:serviceSOAP" />
+
+    <xs:complexType name="serviceSOAP">
+        <xs:sequence>
+            <xs:element name="providerId" type="xs:integer" minOccurs="0" />
+            <xs:element name="serviceId" type="xs:integer" minOccurs="0" />
+            <xs:element name="country_code" type="xs:string" minOccurs="0" />
+            <xs:element name="description" type="xs:string" minOccurs="0" />
+            <xs:element name="capacity" type="xs:integer" minOccurs="0" />
+            <xs:element name="category" type="xs:int" minOccurs="0" />
+            <xs:element name="title" type="xs:string" minOccurs="0" />
+            <xs:element name="cost" type="xs:double" />
+
+
+            <xs:element name="origin" type="xs:string" minOccurs="0" />
+            <xs:element name="destination" type="xs:string" minOccurs="0" />
+            <xs:element name="arrival_time" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="departure_time" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="transportation_type" type="xs:string" minOccurs="0" />
+
+
+            <xs:element name="checkin_time" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="checkout_time" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="breakfast" type="xs:boolean" minOccurs="0" />
+            <xs:element name="internet" type="xs:boolean" minOccurs="0" />
+            <xs:element name="location" type="xs:string" minOccurs="0" />
+
+            <xs:element name="meal_type" type="xs:integer" minOccurs="0" />
+            <xs:element name="servings" type="xs:integer" minOccurs="0" />
+            <xs:element name="vegan" type="xs:boolean" minOccurs="0" />
+
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- GET SERVICE BY ID -->
+    <xs:element name="getServiceByIdRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="serviceId" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getServiceByIdResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="service" type="tns:serviceSOAP"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET ALL SERVICES -->
+    <xs:element name="getAllServicesRequest">
+        <xs:complexType>
+            <xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY PROVIDER ID -->
+    <xs:element name="getServiceByProviderIdRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="supplierId" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY TITTLE -->
+    <xs:element name="getServiceByTittleRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="serviceName" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- RESPONSE LIST SERVICES -->
+    <xs:element name="getServicesListResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="service" type="tns:serviceSOAP" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY CATEGORY -->
+    <xs:element name="getServiceByCategoryRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="category" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!-- GET SERVICE BY DESCRIPTION -->
+    <xs:element name="getServiceByDescriptionRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="description" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY COUNTRY CODE -->
+    <xs:element name="getServiceByCountrynRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="country_code" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY COST -->
+    <xs:element name="getServiceByCostRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="cost" type="xs:double"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY CAPACITY -->
+    <xs:element name="getServiceByCapacityRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="capacity" type="xs:integer"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY ORIGIN -->
+    <xs:element name="getServiceByOriginRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="origin" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY DESTINATION -->
+    <xs:element name="getServiceByDestinationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="destination" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY ARRIVAL TIME -->
+    <xs:element name="getServiceByArrivalTimeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="arrival_time" type="xs:dateTime"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY DEPARTURE TIME -->
+    <xs:element name="getServiceByDepartureTimeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="departure_time" type="xs:dateTime"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY TRANSPORTATION TYPE -->
+    <xs:element name="getServiceByTransportationTypeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="transportation_type" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY LOCATION -->
+    <xs:element name="getServiceByLocationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="location" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY CHECK IN TIME -->
+    <xs:element name="getServiceByCheckInTimeTimeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="checkin_time" type="xs:dateTime"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY CHECK OUT TIME -->
+    <xs:element name="getServiceByCheckOutTimeTimeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="checkout_time" type="xs:dateTime"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY BREAKFAST -->
+    <xs:element name="getServiceByBreakfastRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="breakfast" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY INTERNET -->
+    <xs:element name="getServiceByInternetRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="internet" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY MEAL TYPE-->
+    <xs:element name="getServiceByMealTypeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="meal_type" type="xs:integer"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY SERVINGS -->
+    <xs:element name="getServiceByServingsTypeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="servings" type="xs:integer"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY VEGAN -->
+    <xs:element name="getServiceByVeganTypeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="vegan" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GET SERVICE BY FILTER -->
+    <xs:element name="getServicesByFilter">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="filter" type="xs:string"/>
+                <xs:element name="data" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
