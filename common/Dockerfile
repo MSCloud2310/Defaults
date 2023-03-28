@@ -1,4 +1,4 @@
-FROM maven:3.9.0-amazoncorretto-17 AS build
+FROM maven:3.9.0-eclipse-temurin-8-alpine AS build
 WORKDIR /app
 COPY /src ./src
 COPY /pom.xml .
