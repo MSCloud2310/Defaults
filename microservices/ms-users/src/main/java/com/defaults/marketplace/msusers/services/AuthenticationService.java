@@ -51,9 +51,8 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
-    // Method to validate token using JwtService
-    public boolean validateToken(String token, String email) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
-        return jwtService.isTokenValid(token, userDetails);
+
+    public String extractUsername(String token) {
+        return jwtService.extractUsername(token);
     }
 }

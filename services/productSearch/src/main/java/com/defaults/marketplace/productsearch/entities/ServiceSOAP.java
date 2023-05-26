@@ -2,22 +2,19 @@
 // Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.3.2 
 // Visite <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
 // Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-// Generado el: 2023.03.27 a las 12:31:22 AM COT 
+// Generado el: 2023.05.25 a las 06:40:47 PM COT 
 //
 
 
 package com.defaults.marketplace.productsearch.entities;
 
 import java.math.BigInteger;
-import java.time.LocalDate;
-
-import com.defaults.marketplace.productsearch.models.enumerations.ServiceCategory;
-import com.defaults.marketplace.productsearch.models.enumerations.ServiceMealType;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -91,30 +88,30 @@ public class ServiceSOAP {
     protected String countryCode;
     protected String description;
     protected BigInteger capacity;
-    protected ServiceCategory category;
+    protected Integer category;
     protected String title;
     protected double cost;
     protected String origin;
     protected String destination;
     @XmlElement(name = "arrival_time")
     @XmlSchemaType(name = "dateTime")
-    protected LocalDate arrivalTime;
+    protected XMLGregorianCalendar arrivalTime;
     @XmlElement(name = "departure_time")
     @XmlSchemaType(name = "dateTime")
-    protected LocalDate departureTime;
+    protected XMLGregorianCalendar departureTime;
     @XmlElement(name = "transportation_type")
     protected String transportationType;
     @XmlElement(name = "checkin_time")
     @XmlSchemaType(name = "dateTime")
-    protected LocalDate checkinTime;
+    protected XMLGregorianCalendar checkinTime;
     @XmlElement(name = "checkout_time")
     @XmlSchemaType(name = "dateTime")
-    protected LocalDate checkoutTime;
+    protected XMLGregorianCalendar checkoutTime;
     protected Boolean breakfast;
     protected Boolean internet;
     protected String location;
     @XmlElement(name = "meal_type")
-    protected ServiceMealType mealType;
+    protected BigInteger mealType;
     protected BigInteger servings;
     protected Boolean vegan;
 
@@ -246,7 +243,7 @@ public class ServiceSOAP {
      *     {@link Integer }
      *     
      */
-    public ServiceCategory getCategory() {
+    public Integer getCategory() {
         return category;
     }
 
@@ -258,7 +255,7 @@ public class ServiceSOAP {
      *     {@link Integer }
      *     
      */
-    public void setCategory(ServiceCategory value) {
+    public void setCategory(Integer value) {
         this.category = value;
     }
 
@@ -355,10 +352,10 @@ public class ServiceSOAP {
      * 
      * @return
      *     possible object is
-     *     {@link LocalDate }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public LocalDate getArrivalTime() {
+    public XMLGregorianCalendar getArrivalTime() {
         return arrivalTime;
     }
 
@@ -367,10 +364,10 @@ public class ServiceSOAP {
      * 
      * @param value
      *     allowed object is
-     *     {@link LocalDate }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setArrivalTime(LocalDate value) {
+    public void setArrivalTime(XMLGregorianCalendar value) {
         this.arrivalTime = value;
     }
 
@@ -379,10 +376,10 @@ public class ServiceSOAP {
      * 
      * @return
      *     possible object is
-     *     {@link LocalDate }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public LocalDate getDepartureTime() {
+    public XMLGregorianCalendar getDepartureTime() {
         return departureTime;
     }
 
@@ -391,10 +388,10 @@ public class ServiceSOAP {
      * 
      * @param value
      *     allowed object is
-     *     {@link LocalDate }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setDepartureTime(LocalDate value) {
+    public void setDepartureTime(XMLGregorianCalendar value) {
         this.departureTime = value;
     }
 
@@ -427,10 +424,10 @@ public class ServiceSOAP {
      * 
      * @return
      *     possible object is
-     *     {@link LocalDate }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public LocalDate getCheckinTime() {
+    public XMLGregorianCalendar getCheckinTime() {
         return checkinTime;
     }
 
@@ -439,10 +436,10 @@ public class ServiceSOAP {
      * 
      * @param value
      *     allowed object is
-     *     {@link LocalDate }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setCheckinTime(LocalDate value) {
+    public void setCheckinTime(XMLGregorianCalendar value) {
         this.checkinTime = value;
     }
 
@@ -451,10 +448,10 @@ public class ServiceSOAP {
      * 
      * @return
      *     possible object is
-     *     {@link LocalDate }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public LocalDate getCheckoutTime() {
+    public XMLGregorianCalendar getCheckoutTime() {
         return checkoutTime;
     }
 
@@ -463,10 +460,10 @@ public class ServiceSOAP {
      * 
      * @param value
      *     allowed object is
-     *     {@link LocalDate }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setCheckoutTime(LocalDate value) {
+    public void setCheckoutTime(XMLGregorianCalendar value) {
         this.checkoutTime = value;
     }
 
@@ -550,7 +547,7 @@ public class ServiceSOAP {
      *     {@link BigInteger }
      *     
      */
-    public ServiceMealType getMealType() {
+    public BigInteger getMealType() {
         return mealType;
     }
 
@@ -562,7 +559,7 @@ public class ServiceSOAP {
      *     {@link BigInteger }
      *     
      */
-    public void setMealType(ServiceMealType value) {
+    public void setMealType(BigInteger value) {
         this.mealType = value;
     }
 
