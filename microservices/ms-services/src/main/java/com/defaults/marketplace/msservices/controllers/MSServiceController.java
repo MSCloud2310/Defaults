@@ -266,24 +266,24 @@ public class MSServiceController {
     public ResponseEntity<?> saveService(@PathVariable Integer providerId, @RequestBody ServiceC serviceC, HttpServletRequest request){
         String mediaType = request.getHeader(HttpHeaders.ACCEPT);
         if (mediaType != null && mediaType.contains(MediaType.TEXT_HTML_VALUE)) {
-            if ((serviceC.getCategory() != ServiceCategory.LODGING) || (serviceC.getCategory() != ServiceCategory.TRANSPORTATION)) {
+            if ((serviceC.getCategory() != ServiceCategory.LODGING) && (serviceC.getCategory() != ServiceCategory.TRANSPORTATION)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Accepted categories for html response: LODGING, TRANSPORTATION");
             }
         }
         serviceC.setProviderId(providerId);
         List<Location> locations = new ArrayList<Location>();
-        if (serviceC.getLocation() != null){
-            String[] locationstr = serviceC.getLocation().split(", ");
-            locations.add(getLocation(locationstr[0]));
-        }
-        if (serviceC.getDestination() != null){
-            String[] locationstr = serviceC.getDestination().split(", ");
-            locations.add(getLocation(locationstr[0]));
-        }
-        if (serviceC.getOrigin() != null){
-            String[] locationstr = serviceC.getOrigin().split(", ");
-            locations.add(getLocation(locationstr[0]));
-        }
+        // if (serviceC.getLocation() != null){
+        //     String[] locationstr = serviceC.getLocation().split(", ");
+        //     locations.add(getLocation(locationstr[0]));
+        // }
+        // if (serviceC.getDestination() != null){
+        //     String[] locationstr = serviceC.getDestination().split(", ");
+        //     locations.add(getLocation(locationstr[0]));
+        // }
+        // if (serviceC.getOrigin() != null){
+        //     String[] locationstr = serviceC.getOrigin().split(", ");
+        //     locations.add(getLocation(locationstr[0]));
+        // }
         serviceC.setLocations(locations);
         ServiceC savedService = serviceService.saveService(serviceC);
     
