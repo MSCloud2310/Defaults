@@ -93,9 +93,9 @@ public class MSServiceController {
         
         Map<String, Object> responseMap = (Map<String, Object>) responseBody;
         ArrayList<Object> results = (ArrayList<Object>) responseMap.get("results");
-        System.out.println(results);
+        // System.out.println(results);
         Object result = results.get(0);
-        System.out.println(results.get(0));
+        // System.out.println(results.get(0));
         Map<String, Object> geometry = (Map<String, Object>) ((Map<String, Object>) result).get("geometry");
         LinkedHashMap<String, Object> location = (LinkedHashMap<String, Object>) geometry.get("location");
 
@@ -301,9 +301,13 @@ public class MSServiceController {
                 headers.setContentType(MediaType.TEXT_HTML);
                 return new ResponseEntity<>(html, headers, HttpStatus.CREATED);
             }
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedService);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            return new ResponseEntity<>(savedService, headers, HttpStatus.CREATED);
         } else {
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedService);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            return new ResponseEntity<>(savedService, headers, HttpStatus.CREATED);
         }
     }
 
