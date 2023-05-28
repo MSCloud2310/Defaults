@@ -1,14 +1,11 @@
-FROM maven:3.9.0-eclipse-temurin-17-alpine AS build
+FROM maven:3.9.0-amazoncorretto-17 AS build
 WORKDIR /app
 COPY /src ./src
 COPY /pom.xml .
 RUN mvn clean package -D skipTests
 
 FROM amazoncorretto:17.0.6-alpine3.17
-WORKDIR /
+WORKDIR /app
 COPY --from=build /app/target/*.jar ./app.jar
-COPY ./start.sh .
-RUN chmod +x ./start.sh
 EXPOSE ${SERVER_PORT}
-# ENTRYPOINT [ "tail", "-f", "/dev/null" ]
-ENTRYPOINT [ "/bin/ash", "./start.sh" ]
+CMD [ "java", "-jar", "./app.jar" ]

@@ -2,14 +2,13 @@ name: default-marketplace
 
 services:
   eureka-server:
-    build:
-      context: ./eureka-server
-      dockerfile: ../common/Dockerfile
+    build: ./eureka-server
     environment:
       - SERVER_PORT=8761
     ports:
       - 8761:8761
 
+  # Databases
   users-db:
     image: mysql:8.0.32-debian
     volumes:
@@ -20,24 +19,12 @@ services:
     ports:
       - 3306:3306
 
-  #
-  #ms-users:
-  #  build:
-  #    context: ./microservices/ms-users
-  #    dockerfile: ../../common/Dockerfile
-  #  environment:
-  #    - SERVER_PORT=8010
-  #    - DATABASE_URL=jdbc:mysql://users-db:3306/users
-  #    - DATABASE_USER=postgres
-  #    - DATABASE_PASSWORD=password
-  #    - HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
-  #    - EUREKA_HOST=eureka-server
-  #    - EUREKA_PORT=8761
-  #  ports:
-  #    - 8010:8010
-  #  depends_on:
-  #    - eureka-server
-  #    - users-db
+  orders-db:
+    image: mongo:6.0.5-jammy
+    volumes:
+      - orders-db_data:/data/db
+    ports:
+      - 27017:27017
 
   services-db:
     image: postgres:15.2-alpine
@@ -49,6 +36,25 @@ services:
       - POSTGRES_DB=services
     ports:
       - 5432:5432
+
+  # Microservices
+  ms-users:
+    build:
+      context: ./microservices/ms-users
+      dockerfile: ../../common/Dockerfile
+    environment:
+      - SERVER_PORT=8010
+      - DATABASE_URL=jdbc:mysql://users-db:3306/users
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=password
+      - HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+      - EUREKA_HOST=eureka-server
+      - EUREKA_PORT=8761
+    ports:
+      - '8010'
+    depends_on:
+      - eureka-server
+      - users-db
 
   ms-services:
     build:
@@ -63,17 +69,10 @@ services:
       - EUREKA_HOST=eureka-server
       - EUREKA_PORT=8761
     ports:
-      - 8020:8020
+      - '8020'
     depends_on:
       - eureka-server
       - services-db
-
-  orders-db:
-    image: mongo:6.0.5-jammy
-    volumes:
-      - orders-db_data:/data/db
-    ports:
-      - 27017:27017
 
   ms-orders:
     build:
@@ -85,14 +84,32 @@ services:
       - EUREKA_HOST=eureka-server
       - EUREKA_PORT=8761
     ports:
-      - 8030:8030
+      - '8030'
     depends_on:
       - eureka-server
       - orders-db
-
-  marketplace-server:
+  
+  ms-services-search:
     build:
-      context: ./marketplace-server
+      context: ./microservices/ms-service-search
+      dockerfile: ../../common/Dockerfile
+    environment:
+      - SERVER_PORT=8040
+      - DATABASE_URL=jdbc:postgresql://services-db:5432/services
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=password
+      - HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - EUREKA_HOST=eureka-server
+      - EUREKA_PORT=8761
+    ports:
+      - '8040'
+    depends_on:
+      - eureka-server
+      - services-db
+
+  api-gateway:
+    build:
+      context: ./api-gateway
       dockerfile: ../common/Dockerfile
     environment:
       - SERVER_PORT=8080
@@ -102,10 +119,8 @@ services:
       - 8080:8080
     depends_on:
       - eureka-server
-      - ms-services
-      - ms-orders
 
 volumes:
-  users-db_data: {}
-  services-db_data: {}
-  orders-db_data: {}
+  users-db_data:
+  services-db_data:
+  orders-db_data:
