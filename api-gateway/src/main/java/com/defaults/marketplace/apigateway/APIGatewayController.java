@@ -1319,7 +1319,4 @@ public class APIGatewayController {
         }
     }
 
-    @GetMapping("/services")
-    public ResponseEntity<String> mpSearchService()
-
 }
