@@ -1,2 +1,7 @@
+# IDE specific directories
 .vscode
 .idea
+
+# MacOS specific directories
+.DS_STORE
+META-INF
