@@ -10,5 +10,4 @@ COPY --from=build /app/target/*.jar ./app.jar
 COPY ./start.sh .
 RUN chmod +x ./start.sh
 EXPOSE ${SERVER_PORT}
-# ENTRYPOINT [ "tail", "-f", "/dev/null" ]
 ENTRYPOINT [ "/bin/ash", "./start.sh" ]
