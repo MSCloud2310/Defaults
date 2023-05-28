@@ -1,17 +1,16 @@
 package com.defaults.marketplace.msorders.services;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.defaults.marketplace.msorders.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.defaults.marketplace.msorders.exceptions.EmptyCartException;
 import com.defaults.marketplace.msorders.exceptions.NotFoundException;
-import com.defaults.marketplace.msorders.models.Cart;
-import com.defaults.marketplace.msorders.models.Order;
-import com.defaults.marketplace.msorders.models.Payment;
-import com.defaults.marketplace.msorders.models.PaymentDetails;
 import com.defaults.marketplace.msorders.repositories.PaymentRepository;
 
 @Service
@@ -67,6 +66,12 @@ public class PaymentService {
                 payment.getCardExpiryDate());
         newPayment = paymentRepository.save(newPayment);
 
+        try {
+            cart.setItems(addWeather(cart));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         Order order = orderService.createOrder(newPayment.getId(), new PaymentDetails(
                 payment.getPaymentMethod(),
                 payment.getCardNumber().substring(payment.getCardNumber().length() - 4)), cart);
@@ -75,6 +80,30 @@ public class PaymentService {
 
         return order;
     }
+
+    public List<Item> addWeather(Cart cart) throws IOException {
+        List<Item> items = cart.getItems();
+        for (Item item : items) {
+            if (item.getDateTo() == null && item.getDateFrom() == null) {
+                item.setWeathers(null);
+            } else {
+                LocalDateTime currentDate = LocalDateTime.now();
+                LocalDateTime limitDate = currentDate.plusDays(5);
+
+                if (!item.getDateTo().isAfter(limitDate)) {
+                    item.setWeathers(null);
+                } else {
+                    if(item.getDateFrom().isAfter(limitDate)){
+                        item.setWeathers(Weather.getWeathers(item.getDateTo(), limitDate, item.getServiceDetails().getDestination()));
+                    }else{
+                        item.setWeathers(Weather.getWeathers(item.getDateTo(), item.getDateFrom(), item.getServiceDetails().getDestination()));
+                    }
+                }
+            }
+        }
+        return items;
+    }
+
 
     public Payment updatePayment(String id, Payment payment) {
         Payment existingPayment = paymentRepository.findById(id).orElse(null);

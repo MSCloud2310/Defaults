@@ -1,6 +1,7 @@
 package com.defaults.marketplace.msorders.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.mongodb.lang.Nullable;
 
@@ -14,8 +15,9 @@ public class Item {
     private Integer serviceId;
     private @Nullable ServiceDetails serviceDetails;
 
+    private List<Weather> weathers;
     public Item(LocalDateTime dateAdded, LocalDateTime dateFrom, LocalDateTime dateTo, Integer quantity, Double cost,
-            Integer serviceId, ServiceDetails serviceDetails) {
+            Integer serviceId, ServiceDetails serviceDetails, List<Weather> weathers) {
         this.dateAdded = dateAdded;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
@@ -23,6 +25,7 @@ public class Item {
         this.cost = cost;
         this.serviceId = serviceId;
         this.serviceDetails = serviceDetails;
+        this.weathers = weathers;
     }
 
     public Item() {
@@ -82,5 +85,13 @@ public class Item {
 
     public void setServiceDetails(@Nullable ServiceDetails serviceDetails) {
         this.serviceDetails = serviceDetails;
+    }
+
+    public List<Weather> getWeathers() {
+        return weathers;
+    }
+
+    public void setWeathers(List<Weather> weathers) {
+        this.weathers = weathers;
     }
 }
