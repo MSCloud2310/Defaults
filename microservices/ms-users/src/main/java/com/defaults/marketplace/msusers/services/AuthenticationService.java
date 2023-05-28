@@ -1,6 +1,7 @@
 package com.defaults.marketplace.msusers.services;
 
 import com.defaults.marketplace.msusers.models.User;
+import com.defaults.marketplace.msusers.models.UserRole;
 import com.defaults.marketplace.msusers.repository.UserRepository;
 import com.defaults.marketplace.msusers.requests.AuthenticationRequest;
 import com.defaults.marketplace.msusers.requests.RegisterRequest;
@@ -54,5 +55,15 @@ public class AuthenticationService {
 
     public String extractUsername(String token) {
         return jwtService.extractUsername(token);
+    }
+
+    public Integer extractUserId(String token) {
+        //System.out.println("User en extract " + jwtService.extractAllClaims(token).get("userId", Integer.class));
+        return jwtService.extractAllClaims(token).get("userId", Integer.class);
+    }
+
+    public String extractUserRole(String token) {
+        //System.out.println("Role en extract " + jwtService.extractAllClaims(token).get("role", String.class));
+        return jwtService.extractAllClaims(token).get("role", String.class);
     }
 }

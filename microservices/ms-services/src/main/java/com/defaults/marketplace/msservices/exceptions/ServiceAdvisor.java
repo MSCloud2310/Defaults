@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
 public class ServiceAdvisor {
     @ExceptionHandler(AlreadyExistException.class)
     @ResponseStatus(code = HttpStatus.CONFLICT)
-    public ResponseEntity<String> handleAlreadyExist(RuntimeException e){
+    public ResponseEntity<String> handleAlreadyExist(AlreadyExistException e){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> handleNonExisting(RuntimeException e){
+    public ResponseEntity<String> handleNonExisting(NotFoundException e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 

@@ -96,4 +96,21 @@ public class UserController {
         String username = authenticationService.extractUsername(jwtToken);
         return ResponseEntity.status(HttpStatus.OK).body(username);
     }
+
+    @GetMapping(value = "/extractUserId")
+    public ResponseEntity<Integer> extractUserId(@RequestHeader("Authorization") String token){
+        String jwtToken = token.substring(7); //Remove "Bearer " from token
+        Integer userId = authenticationService.extractUserId(jwtToken);
+        //System.out.println("Id "+ userId);
+        return ResponseEntity.status(HttpStatus.OK).body(userId);
+    }
+
+    @GetMapping(value = "/extractUserRole")
+    public ResponseEntity<String> extractUserRole(@RequestHeader("Authorization") String token){
+        String jwtToken = token.substring(7); //Remove "Bearer " from token
+        String userRole = authenticationService.extractUserRole(jwtToken);
+        //System.out.println("Role "+ userRole);
+        return ResponseEntity.status(HttpStatus.OK).body(userRole);
+    }
+
 }
