@@ -8,31 +8,39 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            checkout scm
+            steps {
+                checkout scm
+            }
         }
 
         stage('Build Eureka Server') {
-            script {
-                def eurekaServerImage = docker.build("defaults/eureka-server", "--file eureka-server/Dockerfile eureka-server")
-            }
-            withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+            steps {
+                script {
+                    def eurekaServerImage = docker.build("defaults/eureka-server", "--file eureka-server/Dockerfile eureka-server")
+                }
+                withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                     script {
                         sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
                         sh "docker push defaults/eureka-server"
                     }
+                }
             }
         }
+
         stage('Build API Gateway') {
-            script {
-                def eurekaServerImage = docker.build("defaults/api-gateway", "--file common/Dockerfile api-gateway")
-            }
-            withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+            steps {
+                script {
+                    def eurekaServerImage = docker.build("defaults/api-gateway", "--file common/Dockerfile api-gateway")
+                }
+                withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                     script {
                         sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
                         sh "docker push defaults/api-gateway"
                     }
+                }
             }
         }
+
         stage('Build Microservices') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
