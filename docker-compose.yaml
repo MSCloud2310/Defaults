@@ -1,12 +1,17 @@
-name: default-marketplace
-
 services:
   eureka-server:
-    build: ./eureka-server
+    image: eureka-server
     environment:
       - SERVER_PORT=8761
     ports:
       - 8761:8761
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.type == master
+    networks:
+      - default-network
 
   # Databases
   users-db:
@@ -18,6 +23,13 @@ services:
       - MYSQL_DATABASE=users
     ports:
       - 3307:3306
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.type == database
+    networks:
+      - default-network
 
   orders-db:
     image: mongo:6.0.5-jammy
@@ -25,6 +37,13 @@ services:
       - orders-db_data:/data/db
     ports:
       - 27017:27017
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.type == database
+    networks:
+      - default-network
 
   services-db:
     image: postgres:15.2-alpine
@@ -36,12 +55,17 @@ services:
       - POSTGRES_DB=services
     ports:
       - 5435:5432
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.type == database
+    networks:
+      - default-network
 
   # Microservices
   ms-users:
-    build:
-      context: ./microservices/ms-users
-      dockerfile: ../../common/Dockerfile
+    image: ms-users
     environment:
       - SERVER_PORT=8010
       - DATABASE_URL=jdbc:mysql://users-db:3306/users
@@ -52,14 +76,19 @@ services:
       - EUREKA_PORT=8761
     ports:
       - '8010'
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.type == services1
     depends_on:
       - eureka-server
       - users-db
+    networks:
+      - default-network
 
   ms-services:
-    build:
-      context: ./microservices/ms-services
-      dockerfile: ../../common/Dockerfile
+    image: ms-services
     environment:
       - SERVER_PORT=8020
       - DATABASE_URL=jdbc:postgresql://services-db:5432/services
@@ -70,14 +99,19 @@ services:
       - EUREKA_PORT=8761
     ports:
       - 8020:8020
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.type == services2
     depends_on:
       - eureka-server
       - services-db
+    networks:
+      - default-network
 
   ms-orders:
-    build:
-      context: ./microservices/ms-orders
-      dockerfile: ../../common/Dockerfile
+    image: ms-orders
     environment:
       - SERVER_PORT=8030
       - MONGODB_URI=mongodb://orders-db:27017/orders
@@ -85,14 +119,19 @@ services:
       - EUREKA_PORT=8761
     ports:
       - '8030'
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.type == services1
     depends_on:
       - eureka-server
       - orders-db
+    networks:
+      - default-network
   
-  ms-services-search:
-    build:
-      context: ./microservices/ms-service-search
-      dockerfile: ../../common/Dockerfile
+  ms-service-search:
+    image: ms-service-search
     environment:
       - SERVER_PORT=8040
       - DATABASE_URL=jdbc:postgresql://services-db:5432/services
@@ -103,24 +142,40 @@ services:
       - EUREKA_PORT=8761
     ports:
       - '8040'
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.type == services2
     depends_on:
       - eureka-server
       - services-db
+    networks:
+      - default-network
 
   api-gateway:
-    build:
-      context: ./api-gateway
-      dockerfile: ../common/Dockerfile
+    image: api-gateway
     environment:
       - SERVER_PORT=8080
       - EUREKA_HOST=eureka-server
       - EUREKA_PORT=8761
     ports:
       - 8080:8080
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.type == master
     depends_on:
       - eureka-server
-
+    networks:
+      - default-network
+      
 volumes:
   users-db_data:
   services-db_data:
   orders-db_data:
+
+networks:
+  default-network:
+    driver: overlay
