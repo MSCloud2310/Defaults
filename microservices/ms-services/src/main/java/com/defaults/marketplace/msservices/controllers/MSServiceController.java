@@ -45,7 +45,7 @@ public class MSServiceController {
     private RestTemplate restTemplate;
 
     private static String urlRestCountries = "https://restcountries.com/v3.1/";
-    private static String urlCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+    private static String urlCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?";
 
     //Aoi rest countries
     public Location getLocation(String name) {
@@ -88,7 +88,8 @@ public class MSServiceController {
     //Api google maps get coordinates
     public String[] getCoordinates(String place, String apiKey) {        
         place.replace(" ", "+");
-        ResponseEntity<Object> response = restTemplate.getForEntity(urlCoordinates + place + "&key=" + apiKey, Object.class);
+        place.replace("#", "%23");
+        ResponseEntity<Object> response = restTemplate.getForEntity(urlCoordinates + "key=" + apiKey + "&address=" + place, Object.class);
         Object responseBody = response.getBody();
         
         Map<String, Object> responseMap = (Map<String, Object>) responseBody;

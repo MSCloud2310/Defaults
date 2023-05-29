@@ -1007,27 +1007,23 @@ public class APIGatewayController {
                     HttpHeaders headers = new HttpHeaders();
                     headers.add("Accept", acceptHeader);
                     HttpEntity<?> request = new HttpEntity<>(serviceC, headers);
-                    ResponseEntity<?> response = restTemplate.exchange(
+                    ResponseEntity<String> response = restTemplate.exchange(
                         "http://ms-services/providers/{providerId}/services",
                         HttpMethod.POST,
                         request,
-                        new ParameterizedTypeReference<Object>(){},
+                        String.class,
                         providerId
                     );
                     MediaType contentType = response.getHeaders().getContentType();
+                    String responseBody = response.getBody();                    
                     if (contentType != null) {
-                        if (contentType.toString().contains(MediaType.TEXT_HTML_VALUE)) {
-                            String htmlResponse = response.getBody().toString();
-                            return ResponseEntity.ok(htmlResponse);
-                        } else if (contentType.toString().contains(MediaType.APPLICATION_JSON_VALUE)) {
-                            Object jsonResponse = response.getBody();
-                            return ResponseEntity.ok(jsonResponse);
+                        if (contentType.isCompatibleWith(MediaType.TEXT_HTML)) {
+                            return ResponseEntity.ok(responseBody);
+                        } else if (contentType.isCompatibleWith(MediaType.APPLICATION_JSON)) {
+                            return ResponseEntity.ok(responseBody);
                         }
-                    } else {
-                        Object jsonResponse = response.getBody();
-                        return ResponseEntity.ok(jsonResponse);
                     }
-                    return response;
+                    return ResponseEntity.ok(responseBody);
                 } catch (HttpClientErrorException ex) {
                     if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
                         HttpHeaders headers = new HttpHeaders();
