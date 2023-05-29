@@ -117,7 +117,7 @@ public class MSServiceController {
             e.printStackTrace();
         }
 
-        String apiKey = properties.getProperty("GOOGLE_API_KEY");
+        String apiKey = "AIzaSyA6v0XqGQmON9ZolxUxVxDRoi0zs0WOOZI";
         
         String[] coordinates = getCoordinates(place, apiKey);
 
@@ -166,7 +166,7 @@ public class MSServiceController {
             e.printStackTrace();
         }
 
-        String apiKey = properties.getProperty("GOOGLE_API_KEY");
+        String apiKey = "AIzaSyA6v0XqGQmON9ZolxUxVxDRoi0zs0WOOZI";
         
         String[] coordOrigin = getCoordinates(origin, apiKey);
         String[] coordDestin = getCoordinates(destination, apiKey);
