@@ -84,12 +84,33 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.deleteUser(id));
     }
 
-    @GetMapping(value = "/validateToken/{email}")
-    public ResponseEntity<String> validateToken(@RequestHeader("Authorization") String token, @PathVariable String email){
-        String jwtToken = token.substring(7); //Remove "Bearer " from token
-        if (authenticationService.validateToken(jwtToken, email)){
-            return ResponseEntity.status(HttpStatus.OK).body("Token is valid.");
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token is invalid.");
+
+    @GetMapping(value = "/validateAuth")
+    public ResponseEntity<Boolean> validateAuth() {
+        return ResponseEntity.status(HttpStatus.OK).body(true);
     }
+
+    @GetMapping(value = "/extractUserEmail")
+    public ResponseEntity<String> extractUserEmail(@RequestHeader("Authorization") String token){
+        String jwtToken = token.substring(7); //Remove "Bearer " from token
+        String username = authenticationService.extractUsername(jwtToken);
+        return ResponseEntity.status(HttpStatus.OK).body(username);
+    }
+
+    @GetMapping(value = "/extractUserId")
+    public ResponseEntity<Integer> extractUserId(@RequestHeader("Authorization") String token){
+        String jwtToken = token.substring(7); //Remove "Bearer " from token
+        Integer userId = authenticationService.extractUserId(jwtToken);
+        //System.out.println("Id "+ userId);
+        return ResponseEntity.status(HttpStatus.OK).body(userId);
+    }
+
+    @GetMapping(value = "/extractUserRole")
+    public ResponseEntity<String> extractUserRole(@RequestHeader("Authorization") String token){
+        String jwtToken = token.substring(7); //Remove "Bearer " from token
+        String userRole = authenticationService.extractUserRole(jwtToken);
+        //System.out.println("Role "+ userRole);
+        return ResponseEntity.status(HttpStatus.OK).body(userRole);
+    }
+
 }

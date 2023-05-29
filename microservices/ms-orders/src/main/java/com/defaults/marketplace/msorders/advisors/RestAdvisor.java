@@ -30,4 +30,11 @@ public class RestAdvisor {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorMessage(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorMessage> handleIllegalArgument(RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorMessage(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
+    }
 }

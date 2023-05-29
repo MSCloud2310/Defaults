@@ -100,4 +100,8 @@ public class ServiceC {
     @OneToMany
     @JoinColumn(name = "service_id")
     private List<Question> questions;
+
+    @OneToMany
+    @JoinColumn(name = "service_id")
+    private List<Location> locations;
 }
