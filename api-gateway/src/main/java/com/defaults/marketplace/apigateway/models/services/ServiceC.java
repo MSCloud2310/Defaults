@@ -58,6 +58,10 @@ public class ServiceC {
 
     private List<Question> questions;
 
+    private List<ServiceRating> ratings;
+
+    private List<Location> locations;
+
     public ServiceC() {
     }
 
@@ -261,4 +265,22 @@ public class ServiceC {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
+
+    public List<ServiceRating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<ServiceRating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
+    }
+
+
 }
