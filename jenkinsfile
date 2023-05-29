@@ -21,7 +21,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                     script {
                         sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
-                        sh "docker push defaults/eureka-server"
+                        sh "docker push d4ramirez/eureka-server"
                     }
                 }
             }
@@ -35,7 +35,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
                     script {
                         sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
-                        sh "docker push defaults/api-gateway"
+                        sh "docker push d4ramirez/api-gateway"
                     }
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
                         for (microservice in microservices) {
                             def app = docker.build("yourdockerhubusername/${microservice}", "--file common/Dockerfile microservices/${microservice}/")
                             
-                            sh "docker push yourdockerhubusername/${microservice}"
+                            sh "docker push d4ramirez/${microservice}"
                         }
                     }
                 }
