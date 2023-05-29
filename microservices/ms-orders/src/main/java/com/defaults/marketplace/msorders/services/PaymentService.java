@@ -1,17 +1,16 @@
 package com.defaults.marketplace.msorders.services;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.defaults.marketplace.msorders.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.defaults.marketplace.msorders.exceptions.EmptyCartException;
 import com.defaults.marketplace.msorders.exceptions.NotFoundException;
-import com.defaults.marketplace.msorders.models.Cart;
-import com.defaults.marketplace.msorders.models.Order;
-import com.defaults.marketplace.msorders.models.Payment;
-import com.defaults.marketplace.msorders.models.PaymentDetails;
 import com.defaults.marketplace.msorders.repositories.PaymentRepository;
 
 @Service
@@ -67,6 +66,12 @@ public class PaymentService {
                 payment.getCardExpiryDate());
         newPayment = paymentRepository.save(newPayment);
 
+        try {
+            cart.setItems(Weather.addWeather(cart));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         Order order = orderService.createOrder(newPayment.getId(), new PaymentDetails(
                 payment.getPaymentMethod(),
                 payment.getCardNumber().substring(payment.getCardNumber().length() - 4)), cart);
@@ -75,6 +80,9 @@ public class PaymentService {
 
         return order;
     }
+
+
+
 
     public Payment updatePayment(String id, Payment payment) {
         Payment existingPayment = paymentRepository.findById(id).orElse(null);
