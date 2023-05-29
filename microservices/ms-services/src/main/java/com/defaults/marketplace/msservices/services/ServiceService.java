@@ -1,5 +1,6 @@
 package com.defaults.marketplace.msservices.services;
 
+import com.defaults.marketplace.msservices.models.entities.Location;
 import com.defaults.marketplace.msservices.models.entities.ServiceC;
 import com.defaults.marketplace.msservices.models.entities.ServiceRating;
 import com.defaults.marketplace.msservices.repository.ServiceRepository;
@@ -12,9 +13,19 @@ import java.util.List;
 public class ServiceService {
     @Autowired
     private ServiceRepository repository;
+    @Autowired
+    private LocationService locationService;
 
     public ServiceC saveService(ServiceC serviceC) {
-        return repository.save(serviceC);
+        List<Location> locations = serviceC.getLocations();
+        serviceC.setLocations(null);
+        ServiceC service = repository.save(serviceC);
+        for (Location location : locations) {
+            location.setServiceId(service.getId());
+            locationService.saveLocation(location);
+        }
+        service.setLocations(locations);
+        return service;
     }
 
     public List<ServiceC> getServices() {

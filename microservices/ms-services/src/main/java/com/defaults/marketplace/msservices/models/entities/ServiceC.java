@@ -105,4 +105,8 @@ public class ServiceC {
     @JoinColumn(name = "service_id")
     private List<ServiceRating> ratings;
     
+    @OneToMany
+    @JoinColumn(name = "service_id")
+    private List<Location> locations;
+    
 }

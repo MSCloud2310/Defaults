@@ -1,0 +1,30 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <title>Geocoding Example</title> 
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
+        <style type="text/css"> 
+            #map_canvas { height: 330px; width:550px; } 
+        </style> 
+        <script type="text/javascript" 
+            src="http://maps.googleapis.com/maps/api/js?sensor=false&key=API_KEY"> 
+        </script> 
+        <script type="text/javascript"> 
+            function initialize() { 
+                var latlng = new google.maps.LatLng(4.7314474,-74.0694348); 
+                var addressMarker = new google.maps.LatLng(4.7314474,-74.0694348); 
+                var myOptions = { 
+                    zoom: 15, 
+                    center: latlng, 
+                    mapTypeId: google.maps.MapTypeId.ROADMAP 
+                }; 
+                var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
+                
+                marker = new google.maps.Marker({ map:map, position: addressMarker }); 
+            } 
+        </script> 
+    </head> 
+    <body onload="initialize()"> 
+        <div id="map_canvas"></div> 
+    </body> 
+</html>

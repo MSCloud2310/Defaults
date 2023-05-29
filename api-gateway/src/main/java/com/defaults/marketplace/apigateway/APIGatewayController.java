@@ -5,6 +5,7 @@ import java.util.List;
 import com.defaults.marketplace.apigateway.models.orders.*;
 import com.defaults.marketplace.apigateway.models.services.*;
 import com.defaults.marketplace.apigateway.models.users.*;
+
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -999,25 +1000,40 @@ public class APIGatewayController {
     // Services
 
     @PostMapping("/providers/{providerId}/services")
-    public ResponseEntity<ServiceC> mpSaveService(@PathVariable Integer providerId, @RequestBody ServiceC serviceC, @RequestParam Integer userId, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<?> mpSaveService(@PathVariable Integer providerId, @RequestBody ServiceC serviceC, @RequestParam Integer userId, @RequestHeader("Authorization") String authorizationHeader, @RequestHeader("Accept") String acceptHeader) {
         if (userId == extractUserId(authorizationHeader).getBody()){
             if (extractUserRole(authorizationHeader).getBody().equals("PROVIDER")){
                 try {
-                    HttpEntity<ServiceC> request = new HttpEntity<>(serviceC);
-                    ResponseEntity<ServiceC> response = restTemplate.exchange(
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.add("Accept", acceptHeader);
+                    HttpEntity<?> request = new HttpEntity<>(serviceC, headers);
+                    ResponseEntity<String> response = restTemplate.exchange(
                         "http://ms-services/providers/{providerId}/services",
                         HttpMethod.POST,
                         request,
-                        new ParameterizedTypeReference<ServiceC>(){},
+                        String.class,
                         providerId
                     );
-                    return response;
+                    MediaType contentType = response.getHeaders().getContentType();
+                    String responseBody = response.getBody();                    
+                    if (contentType != null) {
+                        if (contentType.isCompatibleWith(MediaType.TEXT_HTML)) {
+                            return ResponseEntity.ok(responseBody);
+                        } else if (contentType.isCompatibleWith(MediaType.APPLICATION_JSON)) {
+                            return ResponseEntity.ok(responseBody);
+                        }
+                    }
+                    return ResponseEntity.ok(responseBody);
                 } catch (HttpClientErrorException ex) {
                     if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
                         HttpHeaders headers = new HttpHeaders();
                         headers.add("message", ex.getMessage());
                         return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
-                    } else {
+                    } else if (ex.getStatusCode() == HttpStatus.BAD_REQUEST){
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.add("message", ex.getMessage());
+                        return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+                    }else {
                         throw ex;
                     }
                 }
