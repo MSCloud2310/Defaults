@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_HUB_USERNAME = 'd4ramirez'
+        DOCKER_HUB_PASSWORD = 'Da_3552551'
+    }
+
     stages {
         stage('Checkout') {
             checkout scm
@@ -38,6 +43,7 @@ pipeline {
 
                         for (microservice in microservices) {
                             def app = docker.build("yourdockerhubusername/${microservice}", "--file common/Dockerfile microservices/${microservice}/")
+                            
                             sh "docker push yourdockerhubusername/${microservice}"
                         }
                     }
