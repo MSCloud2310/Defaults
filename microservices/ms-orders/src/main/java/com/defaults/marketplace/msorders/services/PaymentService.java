@@ -67,7 +67,7 @@ public class PaymentService {
         newPayment = paymentRepository.save(newPayment);
 
         try {
-            cart.setItems(addWeather(cart));
+            cart.setItems(Weather.addWeather(cart));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -81,28 +81,7 @@ public class PaymentService {
         return order;
     }
 
-    public List<Item> addWeather(Cart cart) throws IOException {
-        List<Item> items = cart.getItems();
-        for (Item item : items) {
-            if (item.getDateTo() == null && item.getDateFrom() == null) {
-                item.setWeathers(null);
-            } else {
-                LocalDateTime currentDate = LocalDateTime.now();
-                LocalDateTime limitDate = currentDate.plusDays(5);
 
-                if (!item.getDateTo().isAfter(limitDate)) {
-                    item.setWeathers(null);
-                } else {
-                    if(item.getDateFrom().isAfter(limitDate)){
-                        item.setWeathers(Weather.getWeathers(item.getDateTo(), limitDate, item.getServiceDetails().getDestination()));
-                    }else{
-                        item.setWeathers(Weather.getWeathers(item.getDateTo(), item.getDateFrom(), item.getServiceDetails().getDestination()));
-                    }
-                }
-            }
-        }
-        return items;
-    }
 
 
     public Payment updatePayment(String id, Payment payment) {

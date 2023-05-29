@@ -73,7 +73,7 @@ public class Weather {
         this.weather = weather;
     }
 
-    public static List<Weather> getWeathers(LocalDateTime dateTo, LocalDateTime dateFrom, String destination) throws IOException {
+    public static List<Weather> getWeathers(LocalDateTime dateFrom, LocalDateTime dateTo, String destination) throws IOException {
         List<Weather> weathers = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -82,8 +82,8 @@ public class Weather {
                 "?location=" + destination +
                 "&fields=temperature,humidity,weatherCode,precipitationIntensity,precipitationType" +
                 "&units=metric" +
-                "&startTime=" + dateTo.format(formatter) +
-                "&endTime=" + dateFrom.format(formatter) +
+                "&startTime=" + dateFrom.plusDays(1).format(formatter) +
+                "&endTime=" + dateTo.plusDays(0).format(formatter) +
                 "&timesteps=1d" +
                 "&apikey=" + apiKey;
 
@@ -128,6 +128,28 @@ public class Weather {
         }
 
         return weathers;
+    }
+    public static List<Item> addWeather(Cart cart) throws IOException {
+        List<Item> items = cart.getItems();
+        for (Item item : items) {
+            if (item.getDateTo() == null && item.getDateFrom() == null) {
+                item.setWeathers(null);
+            } else {
+                LocalDateTime currentDate = LocalDateTime.now();
+                LocalDateTime limitDate = currentDate.plusDays(5);
+
+                if (item.getDateFrom().isAfter(limitDate)) {
+                    item.setWeathers(null);
+                } else {
+                    if(item.getDateTo().isAfter(limitDate)){
+                        item.setWeathers(Weather.getWeathers(item.getDateFrom(), limitDate, item.getServiceDetails().getDestination()));
+                    }else{
+                        item.setWeathers(Weather.getWeathers(item.getDateFrom(), item.getDateTo(), item.getServiceDetails().getDestination()));
+                    }
+                }
+            }
+        }
+        return items;
     }
 
     public static String getWeatherDes(String code){
