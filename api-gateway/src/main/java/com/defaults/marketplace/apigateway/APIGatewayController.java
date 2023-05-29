@@ -5,7 +5,8 @@ import java.util.List;
 import com.defaults.marketplace.apigateway.models.orders.*;
 import com.defaults.marketplace.apigateway.models.services.*;
 import com.defaults.marketplace.apigateway.models.users.*;
-
+import com.defaults.marketplace.apigateway.schema.SearchServicesRequest;
+import com.defaults.marketplace.apigateway.schema.SearchServicesResponse;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -16,12 +17,19 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.ws.client.core.WebServiceTemplate;
 
 @RestController
 @RequestMapping("/api")
 public class APIGatewayController {
     @Autowired
     RestTemplate restTemplate;
+
+    @Bean
+    @LoadBalanced
+    WebServiceTemplate webServiceTemplate(){
+        return new WebServiceTemplate();
+    }
 
     @Bean
     @LoadBalanced
@@ -668,7 +676,7 @@ public class APIGatewayController {
                         HttpHeaders headers = new HttpHeaders();
                         headers.add("message", ex.getMessage());
                         return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
-                    } 
+                    }
                     HttpHeaders headers = new HttpHeaders();
                     headers.add("message", ex.getMessage());
                     return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
@@ -1119,7 +1127,8 @@ public class APIGatewayController {
     }
 
     @GetMapping("/providers/services/{id}")
-    public ResponseEntity<?> mpGetServiceById(@PathVariable Integer id, @RequestHeader("Authorization") String authorizationHeader, @RequestHeader("Accept") String acceptHeader) {
+    public ResponseEntity<?> mpGetServiceById(@PathVariable Integer id,
+            @RequestHeader("Authorization") String authorizationHeader, @RequestHeader("Accept") String acceptHeader) {
         HttpEntity<Object> requestBody = requestEmptyBody(authorizationHeader);
         boolean verifyAuth = mpVerifyToken(restTemplate, requestBody);
         if (!verifyAuth) {
@@ -1130,14 +1139,13 @@ public class APIGatewayController {
             headers.add("Accept", acceptHeader);
             HttpEntity<?> request = new HttpEntity<>(null, headers);
             ResponseEntity<String> response = restTemplate.exchange(
-                "http://ms-services/providers/services/{id}",
-                HttpMethod.GET,
-                request,
-                String.class,
-                id
-            );
+                    "http://ms-services/providers/services/{id}",
+                    HttpMethod.GET,
+                    request,
+                    String.class,
+                    id);
             MediaType contentType = response.getHeaders().getContentType();
-            String responseBody = response.getBody();                    
+            String responseBody = response.getBody();
             if (contentType != null) {
                 if (contentType.isCompatibleWith(MediaType.TEXT_HTML)) {
                     return ResponseEntity.ok(responseBody);
@@ -1155,7 +1163,8 @@ public class APIGatewayController {
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("message", ex.getMessage());
                 return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
-            } {
+            }
+            {
                 throw ex;
             }
         }
@@ -1407,7 +1416,7 @@ public class APIGatewayController {
         }
     }
 
-    //Ratings ------------
+    // Ratings ------------
 
     @GetMapping(value = "/services/{serviceId}/ratings")
     public ResponseEntity<List<ServiceRating>> mpGetRatings(@PathVariable Integer serviceId,
@@ -1501,6 +1510,16 @@ public class APIGatewayController {
                 throw ex;
             }
         }
+    }
+
+    // SOAP ------------
+    @GetMapping(value = "/services/search")
+    public SearchServicesResponse searchServices(@RequestParam String filter) {
+        SearchServicesRequest request = new SearchServicesRequest();
+        request.setFilter(filter);
+        SearchServicesResponse response = (SearchServicesResponse) webServiceTemplate()
+                .marshalSendAndReceive("http://ms-service-search:8040/ws", request);
+        return response;
     }
 
 }

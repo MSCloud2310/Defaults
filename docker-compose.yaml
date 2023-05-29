@@ -89,23 +89,23 @@ services:
       - eureka-server
       - orders-db
   
-  # ms-services-search:
-  #   build:
-  #     context: ./microservices/ms-service-search
-  #     dockerfile: ../../common/Dockerfile
-  #   environment:
-  #     - SERVER_PORT=8040
-  #     - DATABASE_URL=jdbc:postgresql://services-db:5432/services
-  #     - DATABASE_USER=postgres
-  #     - DATABASE_PASSWORD=password
-  #     - HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
-  #     - EUREKA_HOST=eureka-server
-  #     - EUREKA_PORT=8761
-  #   ports:
-  #     - '8040'
-  #   depends_on:
-  #     - eureka-server
-  #     - services-db
+  ms-services-search:
+    build:
+      context: ./microservices/ms-service-search
+      dockerfile: ../../common/Dockerfile
+    environment:
+      - SERVER_PORT=8040
+      - DATABASE_URL=jdbc:postgresql://services-db:5432/services
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=password
+      - HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - EUREKA_HOST=eureka-server
+      - EUREKA_PORT=8761
+    ports:
+      - '8040'
+    depends_on:
+      - eureka-server
+      - services-db
 
   api-gateway:
     build:

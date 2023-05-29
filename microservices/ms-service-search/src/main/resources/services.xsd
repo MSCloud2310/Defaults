@@ -1,0 +1,68 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://www.defaults.com/marketplace/productSearch/entities"
+            targetNamespace="http://www.defaults.com/marketplace/productSearch/entities"
+            elementFormDefault="qualified">
+    <xs:element name="serviceSOAP" type="tns:serviceSOAP" />
+
+    <xs:simpleType name="serviceMealType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BREAKFAST"/>
+            <xs:enumeration value="LUNCH"/>
+            <xs:enumeration value="DINNER"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="serviceCategory">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="TRANSPORTATION"/>
+            <xs:enumeration value="LODGING"/>
+            <xs:enumeration value="MEAL"/>
+            <xs:enumeration value="TOUR"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="serviceSOAP">
+        <xs:sequence>
+            <xs:element name="providerId" type="xs:integer" minOccurs="0" />
+            <xs:element name="serviceId" type="xs:integer" minOccurs="0" />
+            <xs:element name="countryCode" type="xs:string" minOccurs="0" />
+            <xs:element name="description" type="xs:string" minOccurs="0" />
+            <xs:element name="capacity" type="xs:integer" minOccurs="0" />
+            <xs:element name="category" type="tns:serviceCategory" minOccurs="0" />
+            <xs:element name="title" type="xs:string" minOccurs="0" />
+            <xs:element name="cost" type="xs:double" />
+
+            <xs:element name="origin" type="xs:string" minOccurs="0" />
+            <xs:element name="destination" type="xs:string" minOccurs="0" />
+            <xs:element name="arrivalTime" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="departureTime" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="transportationType" type="xs:string" minOccurs="0" />
+
+            <xs:element name="checkinTime" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="checkoutTime" type="xs:dateTime" minOccurs="0" />
+            <xs:element name="breakfast" type="xs:boolean" minOccurs="0" />
+            <xs:element name="internet" type="xs:boolean" minOccurs="0" />
+            <xs:element name="location" type="xs:string" minOccurs="0" />
+
+            <xs:element name="mealType" type="tns:serviceMealType" minOccurs="0" />
+            <xs:element name="servings" type="xs:integer" minOccurs="0" />
+            <xs:element name="vegan" type="xs:boolean" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="searchServicesRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="filter" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="searchServicesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="service" type="tns:serviceSOAP" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
