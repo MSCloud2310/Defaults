@@ -5,3 +5,4 @@ while ! nc -z $EUREKA_HOST $EUREKA_PORT ; do
 done
 
 java -jar app.jar
+#
