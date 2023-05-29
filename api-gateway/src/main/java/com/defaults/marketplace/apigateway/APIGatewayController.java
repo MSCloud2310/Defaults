@@ -668,11 +668,10 @@ public class APIGatewayController {
                         HttpHeaders headers = new HttpHeaders();
                         headers.add("message", ex.getMessage());
                         return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
-                    } else {
-                        HttpHeaders headers = new HttpHeaders();
-                        headers.add("message", ex.getMessage());
-                        return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
-                    }
+                    } 
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.add("message", ex.getMessage());
+                    return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
                 }
             } else {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -1120,28 +1119,43 @@ public class APIGatewayController {
     }
 
     @GetMapping("/providers/services/{id}")
-    public ResponseEntity<ServiceC> mpGetServiceById(@PathVariable Integer id,
-            @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<?> mpGetServiceById(@PathVariable Integer id, @RequestHeader("Authorization") String authorizationHeader, @RequestHeader("Accept") String acceptHeader) {
         HttpEntity<Object> requestBody = requestEmptyBody(authorizationHeader);
         boolean verifyAuth = mpVerifyToken(restTemplate, requestBody);
         if (!verifyAuth) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         try {
-            ResponseEntity<ServiceC> response = restTemplate.exchange(
-                    "http://ms-services/providers/services/{id}",
-                    HttpMethod.GET,
-                    requestBody,
-                    new ParameterizedTypeReference<ServiceC>() {
-                    },
-                    id);
-            return response;
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Accept", acceptHeader);
+            HttpEntity<?> request = new HttpEntity<>(null, headers);
+            ResponseEntity<String> response = restTemplate.exchange(
+                "http://ms-services/providers/services/{id}",
+                HttpMethod.GET,
+                request,
+                String.class,
+                id
+            );
+            MediaType contentType = response.getHeaders().getContentType();
+            String responseBody = response.getBody();                    
+            if (contentType != null) {
+                if (contentType.isCompatibleWith(MediaType.TEXT_HTML)) {
+                    return ResponseEntity.ok(responseBody);
+                } else if (contentType.isCompatibleWith(MediaType.APPLICATION_JSON)) {
+                    return ResponseEntity.ok(responseBody);
+                }
+            }
+            return ResponseEntity.ok(responseBody);
         } catch (HttpClientErrorException ex) {
             if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("message", ex.getMessage());
                 return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
-            } else {
+            } else if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("message", ex.getMessage());
+                return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+            } {
                 throw ex;
             }
         }
@@ -1393,6 +1407,8 @@ public class APIGatewayController {
         }
     }
 
+    //Ratings ------------
+
     @GetMapping(value = "/services/{serviceId}/ratings")
     public ResponseEntity<List<ServiceRating>> mpGetRatings(@PathVariable Integer serviceId,
             @RequestHeader("Authorization") String authorizationHeader) {
@@ -1462,6 +1478,9 @@ public class APIGatewayController {
         }
         if (extractUserRole(authorizationHeader).getBody().equals("PROVIDER")) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        if (userId == extractUserId(authorizationHeader).getBody()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         try {
             ResponseEntity<Boolean> response = restTemplate.exchange(
