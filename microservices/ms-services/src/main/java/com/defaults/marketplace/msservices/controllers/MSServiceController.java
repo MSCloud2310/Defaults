@@ -117,7 +117,7 @@ public class MSServiceController {
             e.printStackTrace();
         }
 
-        String apiKey = properties.getProperty("GOOGLE_API_KEY");
+        String apiKey = "AIzaSyA6v0XqGQmON9ZolxUxVxDRoi0zs0WOOZI";
         
         String[] coordinates = getCoordinates(place, apiKey);
 
@@ -166,7 +166,7 @@ public class MSServiceController {
             e.printStackTrace();
         }
 
-        String apiKey = properties.getProperty("GOOGLE_API_KEY");
+        String apiKey = "AIzaSyA6v0XqGQmON9ZolxUxVxDRoi0zs0WOOZI";
         
         String[] coordOrigin = getCoordinates(origin, apiKey);
         String[] coordDestin = getCoordinates(destination, apiKey);
@@ -274,18 +274,18 @@ public class MSServiceController {
         }
         serviceC.setProviderId(providerId);
         List<Location> locations = new ArrayList<Location>();
-        // if (serviceC.getLocation() != null){
-        //     String[] locationstr = serviceC.getLocation().split(", ");
-        //     locations.add(getLocation(locationstr[0]));
-        // }
-        // if (serviceC.getDestination() != null){
-        //     String[] locationstr = serviceC.getDestination().split(", ");
-        //     locations.add(getLocation(locationstr[0]));
-        // }
-        // if (serviceC.getOrigin() != null){
-        //     String[] locationstr = serviceC.getOrigin().split(", ");
-        //     locations.add(getLocation(locationstr[0]));
-        // }
+        if (serviceC.getLocation() != null){
+            String[] locationstr = serviceC.getLocation().split(", ");
+            locations.add(getLocation(locationstr[0]));
+        }
+        if (serviceC.getDestination() != null){
+            String[] locationstr = serviceC.getDestination().split(", ");
+            locations.add(getLocation(locationstr[0]));
+        }
+        if (serviceC.getOrigin() != null){
+            String[] locationstr = serviceC.getOrigin().split(", ");
+            locations.add(getLocation(locationstr[0]));
+        }
         serviceC.setLocations(locations);
         ServiceC savedService = serviceService.saveService(serviceC);
     
