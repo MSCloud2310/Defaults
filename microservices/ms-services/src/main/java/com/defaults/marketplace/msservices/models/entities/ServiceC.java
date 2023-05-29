@@ -100,4 +100,9 @@ public class ServiceC {
     @OneToMany
     @JoinColumn(name = "service_id")
     private List<Question> questions;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "service_id")
+    private List<ServiceRating> ratings;
+    
 }
