@@ -86,7 +86,7 @@ public class Weather {
             e.printStackTrace();
         }
 
-        String apiKey = properties.getProperty("TOMORROW_API_KEY");
+        String apiKey = "X5fUi0DxocH0iKETBLmjhaoRx4bGW83t";
 
         //String apiKey = ;
         String apiUrl = "https://api.tomorrow.io/v4/timelines"+
