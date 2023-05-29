@@ -319,13 +319,40 @@ public class MSServiceController {
         }
         return ResponseEntity.status(HttpStatus.FOUND).body(serviceService.getServices());
     }
-
+    
     @GetMapping(value = "services/{id}")
-    public ResponseEntity<ServiceC> getServiceById(@PathVariable Integer id){
-        if (serviceService.getServiceById(id) == null){
+    public ResponseEntity<?> getServiceById(@PathVariable Integer id, HttpServletRequest request){
+        String mediaType = request.getHeader(HttpHeaders.ACCEPT);
+        ServiceC serviceC = serviceService.getServiceById(id);
+        if (serviceC == null){
             throw new NotFoundException("Service with id " + id + " doesn't exist.");
+        } else {
+            if (mediaType != null && mediaType.contains(MediaType.TEXT_HTML_VALUE)) {
+                if ((serviceC.getCategory() != ServiceCategory.LODGING) && (serviceC.getCategory() != ServiceCategory.TRANSPORTATION)) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Accepted categories for html response: LODGING, TRANSPORTATION");
+                }
+                if (serviceC.getCategory() == ServiceCategory.LODGING){
+                    String html = getMap(serviceC.getLocation());
+                    html = html.replace("[[json]]", serviceC.toString());
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.TEXT_HTML);
+                    return new ResponseEntity<>(html, headers, HttpStatus.FOUND);
+                } else if (serviceC.getCategory() == ServiceCategory.TRANSPORTATION){
+                    String html = getRoute(serviceC.getOrigin(), serviceC.getDestination());
+                    html = html.replace("[[json]]", serviceC.toString());
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.TEXT_HTML);
+                    return new ResponseEntity<>(html, headers, HttpStatus.FOUND);
+                }
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                return new ResponseEntity<>(serviceC, headers, HttpStatus.FOUND);
+            } else {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                return new ResponseEntity<>(serviceC, headers, HttpStatus.FOUND);
+            }
         }
-        return ResponseEntity.status(HttpStatus.FOUND).body(serviceService.getServiceById(id));
     }
 
     @PutMapping(value = "services/{id}")

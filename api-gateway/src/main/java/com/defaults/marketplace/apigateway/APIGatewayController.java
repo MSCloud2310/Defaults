@@ -1071,27 +1071,43 @@ public class APIGatewayController {
     }
 
     @GetMapping("/providers/services/{id}")
-    public ResponseEntity<ServiceC> mpGetServiceById(@PathVariable Integer id, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<?> mpGetServiceById(@PathVariable Integer id, @RequestHeader("Authorization") String authorizationHeader, @RequestHeader("Accept") String acceptHeader) {
         HttpEntity<Object> requestBody = requestEmptyBody(authorizationHeader);
         boolean verifyAuth = mpVerifyToken(restTemplate, requestBody);
         if(!verifyAuth){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         try {
-            ResponseEntity<ServiceC> response = restTemplate.exchange(
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Accept", acceptHeader);
+            HttpEntity<?> request = new HttpEntity<>(null, headers);
+            ResponseEntity<String> response = restTemplate.exchange(
                 "http://ms-services/providers/services/{id}",
                 HttpMethod.GET,
-                requestBody,
-                new ParameterizedTypeReference<ServiceC>(){},
+                request,
+                String.class,
                 id
             );
-            return response;
+            MediaType contentType = response.getHeaders().getContentType();
+            String responseBody = response.getBody();                    
+            if (contentType != null) {
+                if (contentType.isCompatibleWith(MediaType.TEXT_HTML)) {
+                    return ResponseEntity.ok(responseBody);
+                } else if (contentType.isCompatibleWith(MediaType.APPLICATION_JSON)) {
+                    return ResponseEntity.ok(responseBody);
+                }
+            }
+            return ResponseEntity.ok(responseBody);
         } catch (HttpClientErrorException ex) {
             if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("message", ex.getMessage());
                 return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
-            } else {
+            } else if (ex.getStatusCode() == HttpStatus.BAD_REQUEST) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("message", ex.getMessage());
+                return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+            } {
                 throw ex;
             }
         }
