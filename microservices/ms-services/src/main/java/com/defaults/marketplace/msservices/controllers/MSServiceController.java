@@ -47,7 +47,7 @@ public class MSServiceController {
     private static String urlRestCountries = "https://restcountries.com/v3.1/";
     private static String urlCoordinates = "https://maps.googleapis.com/maps/api/geocode/json?";
 
-    //Aoi rest countries
+    //Api rest countries
     public Location getLocation(String name) {
         ResponseEntity<Country[]> response = restTemplate.getForEntity(urlRestCountries + "name/" + name + "?fields=capital,currencies,languages,region,population,flags", Country[].class);
         Country[] countries = response.getBody();

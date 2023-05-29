@@ -633,11 +633,10 @@ public class APIGatewayController {
                         HttpHeaders headers = new HttpHeaders();
                         headers.add("message", ex.getMessage());
                         return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
-                    } else {
-                        HttpHeaders headers = new HttpHeaders();
-                        headers.add("message", ex.getMessage());
-                        return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
-                    }
+                    } 
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.add("message", ex.getMessage());
+                    return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
                 }
             } else {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

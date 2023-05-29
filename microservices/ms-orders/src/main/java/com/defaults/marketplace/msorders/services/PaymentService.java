@@ -65,7 +65,6 @@ public class PaymentService {
                 payment.getCardCvv(),
                 payment.getCardExpiryDate());
         newPayment = paymentRepository.save(newPayment);
-
         try {
             cart.setItems(Weather.addWeather(cart));
         } catch (IOException e) {

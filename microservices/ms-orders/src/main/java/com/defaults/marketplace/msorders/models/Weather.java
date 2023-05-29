@@ -7,6 +7,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Weather {
 
@@ -76,8 +78,17 @@ public class Weather {
     public static List<Weather> getWeathers(LocalDateTime dateFrom, LocalDateTime dateTo, String destination) throws IOException {
         List<Weather> weathers = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Properties properties = new Properties();
+        try {
+            FileInputStream file = new FileInputStream(".env.properties");
+            properties.load(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        String apiKey = "X5fUi0DxocH0iKETBLmjhaoRx4bGW83t";
+        String apiKey = properties.getProperty("TOMORROW_API_KEY");
+
+        //String apiKey = ;
         String apiUrl = "https://api.tomorrow.io/v4/timelines"+
                 "?location=" + destination +
                 "&fields=temperature,humidity,weatherCode,precipitationIntensity,precipitationType" +
@@ -141,10 +152,12 @@ public class Weather {
                 if (item.getDateFrom().isAfter(limitDate)) {
                     item.setWeathers(null);
                 } else {
+                    String[] destinationStr = item.getServiceDetails().getDestination().split(", ");
+                    String destination = destinationStr[1];
                     if(item.getDateTo().isAfter(limitDate)){
-                        item.setWeathers(Weather.getWeathers(item.getDateFrom(), limitDate, item.getServiceDetails().getDestination()));
+                        item.setWeathers(Weather.getWeathers(item.getDateFrom(), limitDate, destination));
                     }else{
-                        item.setWeathers(Weather.getWeathers(item.getDateFrom(), item.getDateTo(), item.getServiceDetails().getDestination()));
+                        item.setWeathers(Weather.getWeathers(item.getDateFrom(), item.getDateTo(), destination));
                     }
                 }
             }
